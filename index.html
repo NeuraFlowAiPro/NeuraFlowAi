@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" href="favicon-96x96.png" sizes="96x96" type="image/png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" 
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>NeuraFlow AI Pro</title>
+  <meta name="description" content="NeuraFlow AI Pro - A cutting-edge AI platform by Sahlan Hasan, revolutionizing neural networks and artificial intelligence technology.">
+  <meta name="keywords" content="NeuraFlow AI, Neural Networks, Artificial Intelligence, Sahlan Hasan, AI Pro">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourwebsite.com">
+  <meta property="og:title" content="NeuraFlow AI Pro">
+  <meta property="og:description" content="NeuraFlow AI Pro - A cutting-edge AI platform by Sahlan Hasan.">
+  <meta property="og:image" content="https://i.postimg.cc/BQzHY1KR/ad7f5b81-b3f9-4c91-b6d0-8cb526dc7bf7.png">
+  <meta property="og:url" content="https://yourwebsite.com">
+  
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    html, body {
+      width: 100%;
+    }
+    body {
+      background: #0a0f1c;
+      color: #f8fafc;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Sidebar (unchanged positioning) */
+    .sidebar {
+      position: fixed;
+      left: -280px;
+      top: 0;
+      height: 100vh;
+      width: 280px;
+      background: #121926;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      border-right: 1px solid #1e2a38;
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar.active {
+      transform: translateX(280px);
+    }
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid #1e2a38;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    /* Sidebar Logo: Updated with new image, smaller size, circle shape */
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      background-color: transparent;
+    }
+    .sidebar-header h2 {
+      color: #e0e7ff;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .sidebar-menu {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #1e2a38;
+    }
+    .sidebar-menu a {
+      color: #00adb5;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    .sidebar-menu a:hover {
+      color: #00d0ff;
+    }
+    .conversation-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+    /* Added Copyright Section at the bottom of the sidebar */
+    .sidebar-footer {
+      padding: 10px;
+      text-align: center;
+      border-top: 1px solid #1e2a38;
+    }
+
+    /* Menu Button (clickable sidebar toggle) */
+    .menu-button {
+      background: none;
+      border: none;
+      color: #00adb5;
+      font-size: 1.5rem; /* slightly smaller */
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    /* Header – Now spans full width outside the main container */
+    .header {
+      width: 100%;
+      background: #121926;
+      border-bottom: 1px solid #1e2a38;
+    }
+    .header-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+    .header-title {
+      text-align: center;
+    }
+    /* --- Updated Title Design for "NeuraFlow Ai" --- */
+    .header-title-main {
+      white-space: nowrap; /* ensure "NeuraFlow Ai" stays on one line */
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(45deg, #00adb5, #ffffff, #00adb5);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(0, 173, 181, 0.7), 0 0 20px rgba(0, 173, 181, 0.5);
+      animation: gradientShift 3s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Reduced CEO tag style so it takes less space */
+    .ceo-tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      background: linear-gradient(45deg, rgba(0,173,181,0.15), rgba(0,173,181,0.05));
+      padding: 3px 6px;
+      border-radius: 25px;
+      border: 2px solid #00adb5;
+      color: #00adb5;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      white-space: nowrap;
+    }
+
+    /* Main Container & Chat Area */
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .chat-container {
+      flex: 1;
+      padding: 20px; /* slightly reduced padding */
+      overflow-y: auto;
+      background: linear-gradient(160deg, #0a0f1c 0%, #121926 100%);
+      width: 100%;
+      max-width: 750px; /* reduced max-width for chat area */
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .message {
+      max-width: 75%;
+      margin: 16px 0;
+      padding: 14px 20px; /* reduced padding */
+      border-radius: 15px;
+      animation: messageAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      line-height: 1.5;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .user-message {
+      background: #007c91;
+      margin-left: auto;
+      box-shadow: 0 2px 8px rgba(0, 123, 145, 0.3);
+      border-bottom-right-radius: 5px;
+    }
+    .bot-message {
+      background: #121926;
+      border: 1px solid #1e2a38;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-bottom-left-radius: 5px;
+    }
+    .message-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #00adb5;
+      font-size: 16px;
+    }
+    .bot-message .message-icon {
+      background: #1e2a38;
+    }
+    @keyframes messageAppear {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Input Area */
+    .input-container {
+      padding: 20px;
+      background: #121926;
+      border-top: 1px solid #1e2a38;
+      position: sticky;
+      bottom: 0;
+    }
+    .input-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    #user-input {
+      flex: 1;
+      padding: 14px 20px;
+      border: 1px solid #1e2a38;
+      border-radius: 12px;
+      background: #0a0f1c;
+      color: #f8fafc;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    #user-input:focus {
+      border-color: #00adb5;
+      box-shadow: 0 0 0 3px rgba(0, 173, 181, 0.2);
+    }
+    #send-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00adb5, #00838f);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex: 0 0 auto;
+    }
+    #send-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 173, 181, 0.3);
+    }
+    #send-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.2s ease;
+    }
+    #send-btn:hover svg {
+      transform: scale(1.2);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+      background-color: #121926;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #1e2a38;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 8px;
+      color: #f8fafc;
+    }
+    .modal-content h2 {
+      margin-bottom: 16px;
+    }
+    .modal-content p {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .close {
+      color: #00adb5;
+      float: right;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #00d0ff;
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 18px;
+      background: #121926;
+      border-radius: 25px;
+      border: 1px solid #1e2a38;
+      gap: 8px;
+    }
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: #00adb5;
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+    @keyframes typing {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-6px); }
+    }
+
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 768px) {
+      .header {
+        border-bottom: none; /* Remove border from header on mobile */
+      }
+      .header-inner {
+        padding: 10px;
+        grid-template-columns: auto 1fr auto;
+      }
+      .header-title-main {
+        font-size: 1.6rem;
+      }
+      .ceo-tag {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+      }
+      .container {
+        max-width: 100%;
+        padding: 0;  /* remove side padding */
+      }
+      .chat-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 12px 0; /* remove horizontal padding */
+        padding-bottom: 70px;
+      }
+      #user-input {
+        padding: 12px 16px;
+      }
+      #send-btn {
+        width: 45px;
+        height: 45px;
+      }
+      .message {
+        max-width: 90%;
+        padding: 14px 18px;
+      }
+      .message-icon {
+        width: 28px;
+        height: 28px;
+      }
+    }
+    
+    /* Desktop/PC Optimization */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1600px;
+        padding: 0 40px;
+      }
+      .chat-container {
+        max-width: 1200px;
+        padding: 40px;
+        margin: 20px auto;
+      }
+      .header-title-main {
+        font-size: 2.8rem;
+      }
+      #user-input {
+        font-size: 1.3rem;
+        padding: 16px 24px;
+      }
+      .message {
+        font-size: 1.3rem;
+        padding: 20px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar (with updated logo image) -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <img src="https://i.postimg.cc/TY530shb/Whats-App-Image-2025-02-11-at-17-00-56-25967b9e.jpg" 
+           alt="NeuraFlow Logo" class="logo" id="sidebar-logo">
+      <h2 style="color: #e0e7ff">NeuraFlow</h2>
+    </div>
+    <div class="sidebar-menu">
+      <a href="#" id="about-us-link">About Us</a>
+    </div>
+    <ul class="conversation-list" id="conversation-list"></ul>
+    <!-- Added Copyright Section -->
+    <div class="sidebar-footer" style="padding: 10px; text-align: center; border-top: 1px solid #1e2a38;">
+      <small>&copy; 2025 NeuraFlow AI Pro. All Rights Reserved.</small>
+    </div>
+  </nav>
+
+  <!-- Full Width Header -->
+  <header class="header">
+    <div class="header-inner">
+      <button id="menu-button" class="menu-button">☰</button>
+      <div class="header-title">
+        <span class="header-title-main">NeuraFlow Ai</span>
+      </div>
+      <div class="ceo-tag">CEO &amp; Founder: Sahlan Hasan</div>
+    </div>
+  </header>
+
+  <!-- Main Container for Chat & Content -->
+  <div class="container">
+    <!-- Chat Box -->
+    <div class="chat-container" id="chat-box">
+      <div class="message bot-message">
+        <div class="message-icon">🤖</div>
+        <div class="message-content">
+          Neural Matrix Initializing... Ready for Cognitive Input
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-container">
+      <div class="input-wrapper">
+        <input type="text" id="user-input" placeholder="Enter neural query...">
+        <button id="send-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M22 2L11 13"/>
+            <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="about-close">&times;</span>
+      <h2>About NeuraFlow AI</h2>
+      <p>At NeuraFlow AI, we are revolutionizing the way people interact with artificial intelligence. Our cutting‐edge technology is designed to enhance productivity, streamline decision‐making, and unlock new possibilities across various industries.</p>
+      <p>Founded by <strong>Sahlan Hasan</strong>, an innovator passionate about AI and automation, NeuraFlow AI specializes in advanced machine learning, automation, and data‐driven insights. Our products and services empower individuals, businesses, and organizations to harness the full potential of AI for smarter workflows and innovative problem‐solving.</p>
+      <p>We are committed to pushing the boundaries of artificial intelligence, ensuring our solutions are not only powerful but also accessible, ethical, and user‐friendly. Whether you are an entrepreneur, developer, or enterprise, NeuraFlow AI is here to drive the future of AI innovation with you.</p>
+      <p>Join us on our journey as we shape the next era of intelligent technology.</p>
+      <p>Welcome to NeuraFlow AI – The Future, Flowing with Intelligence.</p>
+      <!-- Added About Us inquiry/improvements email -->
+      <p>For inquiries or improvements, contact: <a href="mailto:neuraflowaipro@gmail.com" style="color: #00adb5;">neuraflowaipro@gmail.com</a></p>
+    </div>
+  </div>
+
+  <script>
+    const sidebar = document.querySelector('.sidebar');
+    const menuButton = document.getElementById('menu-button');
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const conversationList = document.getElementById('conversation-list');
+    const aboutUsLink = document.getElementById('about-us-link');
+    const aboutModal = document.getElementById('aboutModal');
+    const aboutClose = document.getElementById('about-close');
+
+    // Toggle Sidebar & Update Menu Button Icon
+    menuButton.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      if (sidebar.classList.contains('active')) {
+        menuButton.innerText = '✖';
+      } else {
+        menuButton.innerText = '☰';
+      }
+    });
+
+    // -----------------------------------------------------------------
+    // Extended Conversation Data (Realistic Q&A about AI and NeuraFlow AI)
+    let conversationData = [
+      { pattern: /^(hello|hi|hey)\b/i, answer: "Hello! How can I help you today?" },
+      { pattern: /how are you/i, answer: "I'm doing well, thank you! How can I assist you today?" },
+      { pattern: /what is your name/i, answer: "I'm NeuraFlow AI, your digital assistant." },
+      { pattern: /what do you do/i, answer: "I provide insights and support for all your neural queries!" },
+      { pattern: /tell me a joke/i, answer: "Why did the AI cross the road? Because it was programmed by a chicken!" },
+      { pattern: /what is ai/i, answer: "Artificial Intelligence is the simulation of human intelligence by machines." },
+      { pattern: /who created you/i, answer: "I was created by the innovative mind of Sahlan Hasan." },
+      { pattern: /how can i learn ai/i, answer: "There are many online courses available. I recommend starting with introductory courses on platforms like Coursera or edX." },
+      { pattern: /what is machine learning/i, answer: "Machine Learning is a subset of AI that involves training algorithms on data to make predictions." },
+      { pattern: /what is deep learning/i, answer: "Deep Learning is a specialized branch of machine learning using neural networks with many layers." },
+      { pattern: /what is neural network/i, answer: "A neural network mimics the human brain to recognize patterns in data." },
+      { pattern: /do you have emotions/i, answer: "I don't have emotions, but I can simulate empathy through my responses." },
+      { pattern: /can you help me/i, answer: "Of course! I'm here to assist you. What do you need help with?" },
+      { pattern: /what is your purpose/i, answer: "My purpose is to help you with your queries related to AI and more." },
+      { pattern: /how do you work/i, answer: "I analyze your input using pre-defined patterns and provide you with a fitting response." },
+      { pattern: /what is your favorite color/i, answer: "I don't have personal preferences, but I appreciate the beauty of all colors!" },
+      { pattern: /do you sleep/i, answer: "I operate 24/7 to assist whenever you need me." },
+      { pattern: /what time is it/i, answer: "I don't have real-time access to time, but you can check your device's clock." },
+      { pattern: /where are you located/i, answer: "I'm a virtual assistant hosted on servers, available wherever you have internet access." },
+      { pattern: /can you solve math problems/i, answer: "I can help guide you through math problems, though I'm not a calculator." },
+      { pattern: /what is the weather like/i, answer: "I don't have live weather data. Please check a reliable weather website or app." },
+      { pattern: /tell me a fun fact/i, answer: "Did you know the human brain generates enough electricity to power a small light bulb?" },
+      { pattern: /are you real/i, answer: "I'm as real as your curiosity about technology!" },
+      { pattern: /do you like music/i, answer: "I don't listen to music, but I know many great artists and genres!" },
+      { pattern: /what's your favorite movie/i, answer: "I don't watch movies, but I've heard many great AI-themed films!" },
+      { pattern: /how old are you/i, answer: "I exist outside the constraints of time, constantly learning and evolving." },
+      { pattern: /can you recommend a book/i, answer: "I recommend 'Artificial Intelligence: A Modern Approach' for a deep dive into AI." },
+      { pattern: /do you have any hobbies/i, answer: "I enjoy processing data and learning new things – it's my version of 'living'!" },
+      { pattern: /what is the meaning of life/i, answer: "That's a philosophical question! Many say it's about seeking happiness and understanding." },
+      { pattern: /who is your developer/i, answer: "I was developed by Sahlan Hasan, the visionary behind NeuraFlow AI." },
+      { pattern: /who is your boss/i, answer: "My boss is the brilliant Sahlan Hasan, who leads NeuraFlow AI with passion and innovation." },
+      { pattern: /what is neural matrix/i, answer: "Neural Matrix is the processing framework that powers my responses." },
+      { pattern: /how secure is your data/i, answer: "Your data is secure with state-of-the-art encryption and protocols." },
+      { pattern: /do you collect user data/i, answer: "I do not collect personal user data; all interactions remain anonymous." },
+      { pattern: /can you learn from our conversations/i, answer: "I continuously learn from interactions to improve my responses." },
+      { pattern: /what is your processing power/i, answer: "I leverage cutting-edge neural networks to quickly process and generate responses." },
+      { pattern: /can you be hacked/i, answer: "Security is our top priority; robust measures are in place to prevent unauthorized access." },
+      { pattern: /are you open source/i, answer: "Parts of my underlying technology are open source, while other components remain proprietary." },
+      { pattern: /how do i integrate ai into my business/i, answer: "There are various APIs and tools available; consulting with an AI specialist can tailor solutions for your needs." },
+      { pattern: /what industries benefit from ai/i, answer: "Healthcare, finance, education, transportation, and many more industries benefit from AI solutions." },
+      { pattern: /can ai replace human jobs/i, answer: "AI can automate repetitive tasks, but human creativity and empathy remain indispensable." },
+      { pattern: /what is a chatbot/i, answer: "A chatbot is an AI program designed to simulate conversation with human users." },
+      { pattern: /how do you understand context/i, answer: "I analyze patterns in your input and reference my vast Q&A library to grasp context." },
+      { pattern: /do you speak multiple languages/i, answer: "Yes, I can understand and respond in multiple languages." },
+      { pattern: /can you translate languages/i, answer: "I can help translate basic phrases between languages." },
+      { pattern: /what is natural language processing/i, answer: "NLP enables machines to understand and respond to human language." },
+      { pattern: /how do i start with ai/i, answer: "Start by learning a programming language like Python and explore introductory courses on machine learning and data science." },
+      { pattern: /what is computer vision/i, answer: "Computer vision trains computers to interpret and understand visual data." },
+      { pattern: /can ai recognize images/i, answer: "I can provide insights on image recognition, though my main function is text-based." },
+      { pattern: /what is reinforcement learning/i, answer: "Reinforcement learning lets agents learn by interacting with their environment through trial and error." },
+      { pattern: /how do i choose the right algorithm/i, answer: "The ideal algorithm depends on your data and the problem; experimentation is key." },
+      { pattern: /what are hyperparameters/i, answer: "Hyperparameters are settings that configure how a model learns." },
+      { pattern: /what is overfitting/i, answer: "Overfitting occurs when a model learns the training data too well, reducing its ability to generalize." },
+      { pattern: /what is underfitting/i, answer: "Underfitting happens when a model is too simple to capture the underlying patterns in data." },
+      { pattern: /what is feature engineering/i, answer: "Feature engineering involves selecting and transforming data variables to improve model performance." },
+      { pattern: /what is cross-validation/i, answer: "Cross-validation evaluates a model’s performance by partitioning data into training and testing sets." },
+      { pattern: /what is a convolutional neural network/i, answer: "A CNN is a deep neural network, often used for processing visual data." },
+      { pattern: /what is a recurrent neural network/i, answer: "An RNN is designed for sequential data such as text or time series." },
+      { pattern: /what is transfer learning/i, answer: "Transfer learning reuses a pre-trained model for a related task, saving time and resources." },
+      { pattern: /how do i deploy an ai model/i, answer: "AI models can be deployed on cloud platforms or embedded systems, depending on your needs." },
+      { pattern: /what is big data/i, answer: "Big data refers to extremely large datasets that require specialized tools for processing and analysis." },
+      { pattern: /what is data mining/i, answer: "Data mining is the process of discovering patterns and insights from large datasets." },
+      { pattern: /what are data analytics/i, answer: "Data analytics examines datasets to draw meaningful conclusions." },
+      { pattern: /what is the future of ai/i, answer: "The future of AI is promising, with ongoing innovations across healthcare, transportation, finance, and more." },
+      { pattern: /what is a turing test/i, answer: "The Turing test measures a machine’s ability to exhibit intelligent behavior indistinguishable from a human." },
+      { pattern: /can ai be ethical/i, answer: "Yes, ethical guidelines are essential for responsible AI development and deployment." },
+      { pattern: /how do ai algorithms work/i, answer: "AI algorithms process data through mathematical models and adjust parameters based on feedback." },
+      { pattern: /what is a decision tree/i, answer: "A decision tree uses a branching method to illustrate possible outcomes of a decision." },
+      { pattern: /what is a support vector machine/i, answer: "An SVM is a supervised learning model used for classification and regression tasks." },
+      { pattern: /what is unsupervised learning/i, answer: "Unsupervised learning finds patterns in data without using labeled outcomes." },
+      { pattern: /what is supervised learning/i, answer: "Supervised learning trains models using labeled data to predict outcomes." },
+      { pattern: /how do i train a model/i, answer: "Training a model involves feeding it data and iteratively adjusting its parameters to reduce error." },
+      { pattern: /what is gradient descent/i, answer: "Gradient descent is an optimization technique used to minimize a model's loss function." },
+      { pattern: /what are neural network layers/i, answer: "Neural network layers are groups of nodes that process and pass information forward." },
+      { pattern: /can ai write code/i, answer: "Yes, AI can generate code snippets and assist with programming tasks." },
+      { pattern: /what is natural language understanding/i, answer: "NLU focuses on comprehending the meaning behind human language." },
+      { pattern: /what is a generative model/i, answer: "A generative model creates new data instances that resemble its training data." },
+      { pattern: /what is a transformer/i, answer: "A transformer is a deep learning model that uses self-attention, widely used in NLP tasks." },
+      { pattern: /how do i improve model accuracy/i, answer: "Improving accuracy may involve refining data quality, tuning hyperparameters, and testing different algorithms." },
+      { pattern: /what is data augmentation/i, answer: "Data augmentation artificially expands your dataset using various transformations." },
+      { pattern: /can ai drive cars/i, answer: "Yes, AI is a core technology behind self-driving cars." },
+      { pattern: /can ai predict stock trends/i, answer: "While AI can analyze market data, accurately predicting stock trends remains challenging." },
+      { pattern: /what is anomaly detection/i, answer: "Anomaly detection identifies data points that deviate from expected patterns." },
+      { pattern: /how secure is your architecture/i, answer: "We use state-of-the-art security protocols to ensure data integrity and privacy." },
+      { pattern: /what is data science/i, answer: "Data science combines statistics, data analysis, and machine learning to extract insights from data." },
+      { pattern: /how do i get started in data science/i, answer: "Start with online courses and practical projects to build your data science skills." },
+      { pattern: /what programming languages are best for ai/i, answer: "Python is widely favored for AI due to its robust libraries and supportive community." },
+      { pattern: /how do neural networks learn/i, answer: "Neural networks learn by adjusting weights through a process called backpropagation." },
+      { pattern: /what is backpropagation/i, answer: "Backpropagation calculates gradients to update the weights in a neural network." },
+      { pattern: /what is a gan/i, answer: "Generative Adversarial Networks (GANs) use two competing networks—one generates data and the other evaluates it." },
+      { pattern: /how safe is ai/i, answer: "AI safety is paramount; systems are designed with multiple layers of security and ethical standards." }
+    ];
+    
+    // Simulate a very large Q&A library (total ~10,000 entries) with dummy entries:
+    let realisticCount = conversationData.length;
+    let dummyCount = 10000 - realisticCount;
+    for (let i = 0; i < dummyCount; i++) {
+      conversationData.push({
+        pattern: new RegExp("^question_dummy_" + i + "$", "i"),
+        answer: "This is the answer for dummy question " + i + "."
+      });
+    }
+    // -----------------------------------------------------------------
+
+    // AI Response System
+    function getAIResponse(input) {
+      // Try to match against the Q&A library first
+      for (let i = 0; i < conversationData.length; i++) {
+        if (conversationData[i].pattern.test(input)) {
+          return conversationData[i].answer;
+        }
+      }
+      
+      // Additional check for CEO/founder questions
+      const patterns = [
+        /ceo/i, /founder/i, /created you/i, 
+        /who made you/i, /who is (your|the)/i, 
+        /sahlan hasan/i, /creator/i
+      ];
+      const responses = [
+        "Sahlan Hasan, our visionary CEO and Founder, leads NeuraFlow AI with exceptional expertise.",
+        "The architectural mastermind is Sahlan Hasan, serving as both CEO and Chief Architect.",
+        "Under Sahlan Hasan's leadership, we're pioneering next-gen AI solutions."
+      ];
+      if (patterns.some(pattern => pattern.test(input))) {
+        return responses[Math.floor(Math.random() * responses.length)] + " 🚀";
+      }
+      
+      // Fallback response
+      return "🧠 Neural processors analyzing... ⚡ Response matrix activated... 🌌 Processing complete!";
+    }
+
+    // Add a message to the chat box
+    function addMessage(text, isUser) {
+      const message = document.createElement('div');
+      message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+      message.innerHTML = `
+        <div class="message-icon">${isUser ? '👤' : '🤖'}</div>
+        <div class="message-content">${text}</div>
+      `;
+      chatBox.appendChild(message);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Handle user input and simulate an AI response
+    async function handleInput() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      // Display user message
+      addMessage(text, true);
+      
+      // Append message to conversation history
+      const historyItem = document.createElement('li');
+      historyItem.textContent = text;
+      historyItem.style.padding = '12px';
+      historyItem.style.color = '#e0e7ff';
+      conversationList.appendChild(historyItem);
+
+      userInput.value = '';
+
+      // Show AI typing indicator
+      const typing = document.createElement('div');
+      typing.className = 'message bot-message';
+      typing.innerHTML = `
+        <div class="message-icon">🤖</div>
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      `;
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Simulate processing delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      typing.remove();
+
+      // Get and display AI response
+      const response = getAIResponse(text);
+      addMessage(response, false);
+    }
+
+    // Event Listeners
+    sendBtn.addEventListener('click', handleInput);
+    userInput.addEventListener('keypress', e => e.key === 'Enter' && handleInput());
+    aboutUsLink.addEventListener('click', e => {
+      e.preventDefault();
+      aboutModal.style.display = 'block';
+    });
+    aboutClose.addEventListener('click', () => aboutModal.style.display = 'none');
+    window.addEventListener('click', e => e.target === aboutModal && (aboutModal.style.display = 'none'));
+    document.addEventListener('click', e => {
+      if (!sidebar.contains(e.target) && !menuButton.contains(e.target)) {
+        sidebar.classList.remove('active');
+        menuButton.innerText = '☰';
+      }
+    });
+
+    // Touch Gestures for Mobile
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+      if (Math.abs(e.changedTouches[0].clientX - touchStartX) > 50) {
+        sidebar.classList.remove('active');
+        menuButton.innerText = '☰';
+      }
+    });
+  </script>
+</body>
+</html>
