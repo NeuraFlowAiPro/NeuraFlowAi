@@ -1,731 +1,678 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="icon" href="favicon-96x96.png" sizes="96x96" type="image/png">
-  <link rel="manifest" href="site.webmanifest">
-
-  <meta charset="UTF-8">
-  <meta name="viewport" 
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>NeuraFlow AI Pro</title>
-  <meta name="description" content="NeuraFlow AI Pro - A cutting-edge AI platform by Sahlan Hasan, revolutionizing neural networks and artificial intelligence technology.">
-  <meta name="keywords" content="NeuraFlow AI, Neural Networks, Artificial Intelligence, Sahlan Hasan, AI Pro">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yourwebsite.com">
-  <meta property="og:title" content="NeuraFlow AI Pro">
-  <meta property="og:description" content="NeuraFlow AI Pro - A cutting-edge AI platform by Sahlan Hasan.">
-  <meta property="og:image" content="https://i.postimg.cc/BQzHY1KR/ad7f5b81-b3f9-4c91-b6d0-8cb526dc7bf7.png">
-  <meta property="og:url" content="https://yourwebsite.com">
-  
-  <style>
-    /* Global Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-    }
-    html, body {
-      width: 100%;
-    }
-    body {
-      background: #0a0f1c;
-      color: #f8fafc;
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    /* Sidebar (unchanged positioning) */
-    .sidebar {
-      position: fixed;
-      left: -280px;
-      top: 0;
-      height: 100vh;
-      width: 280px;
-      background: #121926;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 1000;
-      border-right: 1px solid #1e2a38;
-      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-    }
-    .sidebar.active {
-      transform: translateX(280px);
-    }
-    .sidebar-header {
-      padding: 24px;
-      border-bottom: 1px solid #1e2a38;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    /* Sidebar Logo: Updated with new image, smaller size, circle shape */
-    .logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      cursor: pointer;
-      background-color: transparent;
-    }
-    .sidebar-header h2 {
-      color: #e0e7ff;
-      font-size: 1.25rem;
-      font-weight: bold;
-    }
-    .sidebar-menu {
-      padding: 10px;
-      text-align: center;
-      border-bottom: 1px solid #1e2a38;
-    }
-    .sidebar-menu a {
-      color: #00adb5;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: color 0.3s ease;
-    }
-    .sidebar-menu a:hover {
-      color: #00d0ff;
-    }
-    .conversation-list {
-      flex: 1;
-      overflow-y: auto;
-    }
-    /* Added Copyright Section at the bottom of the sidebar */
-    .sidebar-footer {
-      padding: 10px;
-      text-align: center;
-      border-top: 1px solid #1e2a38;
-    }
-
-    /* Menu Button (clickable sidebar toggle) */
-    .menu-button {
-      background: none;
-      border: none;
-      color: #00adb5;
-      font-size: 1.5rem; /* slightly smaller */
-      cursor: pointer;
-      padding: 5px;
-    }
-
-    /* Header – Now spans full width outside the main container */
-    .header {
-      width: 100%;
-      background: #121926;
-      border-bottom: 1px solid #1e2a38;
-    }
-    .header-inner {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 15px 20px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-    }
-    .header-title {
-      text-align: center;
-    }
-    /* --- Updated Title Design for "NeuraFlow Ai" --- */
-    .header-title-main {
-      white-space: nowrap; /* ensure "NeuraFlow Ai" stays on one line */
-      font-size: 1.8rem;
-      font-weight: 800;
-      background: linear-gradient(45deg, #00adb5, #ffffff, #00adb5);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 10px rgba(0, 173, 181, 0.7), 0 0 20px rgba(0, 173, 181, 0.5);
-      animation: gradientShift 3s ease infinite;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    /* Reduced CEO tag style so it takes less space */
-    .ceo-tag {
-      font-size: 0.65rem;
-      font-weight: 600;
-      background: linear-gradient(45deg, rgba(0,173,181,0.15), rgba(0,173,181,0.05));
-      padding: 3px 6px;
-      border-radius: 25px;
-      border: 2px solid #00adb5;
-      color: #00adb5;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      white-space: nowrap;
-    }
-
-    /* Main Container & Chat Area */
-    .container {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    .chat-container {
-      flex: 1;
-      padding: 20px; /* slightly reduced padding */
-      overflow-y: auto;
-      background: linear-gradient(160deg, #0a0f1c 0%, #121926 100%);
-      width: 100%;
-      max-width: 750px; /* reduced max-width for chat area */
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .message {
-      max-width: 75%;
-      margin: 16px 0;
-      padding: 14px 20px; /* reduced padding */
-      border-radius: 15px;
-      animation: messageAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      line-height: 1.5;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .user-message {
-      background: #007c91;
-      margin-left: auto;
-      box-shadow: 0 2px 8px rgba(0, 123, 145, 0.3);
-      border-bottom-right-radius: 5px;
-    }
-    .bot-message {
-      background: #121926;
-      border: 1px solid #1e2a38;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      border-bottom-left-radius: 5px;
-    }
-    .message-icon {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #00adb5;
-      font-size: 16px;
-    }
-    .bot-message .message-icon {
-      background: #1e2a38;
-    }
-    @keyframes messageAppear {
-      0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    /* Input Area */
-    .input-container {
-      padding: 20px;
-      background: #121926;
-      border-top: 1px solid #1e2a38;
-      position: sticky;
-      bottom: 0;
-    }
-    .input-wrapper {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-    #user-input {
-      flex: 1;
-      padding: 14px 20px;
-      border: 1px solid #1e2a38;
-      border-radius: 12px;
-      background: #0a0f1c;
-      color: #f8fafc;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    #user-input:focus {
-      border-color: #00adb5;
-      box-shadow: 0 0 0 3px rgba(0, 173, 181, 0.2);
-    }
-    #send-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00adb5, #00838f);
-      border: none;
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      flex: 0 0 auto;
-    }
-    #send-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 12px rgba(0, 173, 181, 0.3);
-    }
-    #send-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: transform 0.2s ease;
-    }
-    #send-btn:hover svg {
-      transform: scale(1.2);
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    .modal-content {
-      background-color: #121926;
-      margin: 10% auto;
-      padding: 20px;
-      border: 1px solid #1e2a38;
-      width: 80%;
-      max-width: 600px;
-      border-radius: 8px;
-      color: #f8fafc;
-    }
-    .modal-content h2 {
-      margin-bottom: 16px;
-    }
-    .modal-content p {
-      margin-bottom: 12px;
-      line-height: 1.6;
-    }
-    .close {
-      color: #00adb5;
-      float: right;
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .close:hover {
-      color: #00d0ff;
-    }
-
-    /* Typing Indicator */
-    .typing-indicator {
-      display: inline-flex;
-      align-items: center;
-      padding: 12px 18px;
-      background: #121926;
-      border-radius: 25px;
-      border: 1px solid #1e2a38;
-      gap: 8px;
-    }
-    .typing-dot {
-      width: 8px;
-      height: 8px;
-      background: #00adb5;
-      border-radius: 50%;
-      animation: typing 1.4s infinite ease-in-out;
-    }
-    @keyframes typing {
-      0%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-6px); }
-    }
-
-    /* Mobile Responsive Adjustments */
-    @media (max-width: 768px) {
-      .header {
-        border-bottom: none; /* Remove border from header on mobile */
-      }
-      .header-inner {
-        padding: 10px;
-        grid-template-columns: auto 1fr auto;
-      }
-      .header-title-main {
-        font-size: 1.6rem;
-      }
-      .ceo-tag {
-        font-size: 0.65rem;
-        padding: 3px 6px;
-      }
-      .container {
-        max-width: 100%;
-        padding: 0;  /* remove side padding */
-      }
-      .chat-container {
-        width: 100%;
-        max-width: 100%;
-        padding: 12px 0; /* remove horizontal padding */
-        padding-bottom: 70px;
-      }
-      #user-input {
-        padding: 12px 16px;
-      }
-      #send-btn {
-        width: 45px;
-        height: 45px;
-      }
-      .message {
-        max-width: 90%;
-        padding: 14px 18px;
-      }
-      .message-icon {
-        width: 28px;
-        height: 28px;
-      }
-    }
-    
-    /* Desktop/PC Optimization */
-    @media (min-width: 1024px) {
-      .container {
-        max-width: 1600px;
-        padding: 0 40px;
-      }
-      .chat-container {
-        max-width: 1200px;
-        padding: 40px;
-        margin: 20px auto;
-      }
-      .header-title-main {
-        font-size: 2.8rem;
-      }
-      #user-input {
-        font-size: 1.3rem;
-        padding: 16px 24px;
-      }
-      .message {
-        font-size: 1.3rem;
-        padding: 20px 28px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- Sidebar (with updated logo image) -->
-  <nav class="sidebar">
-    <div class="sidebar-header">
-      <img src="https://i.postimg.cc/TY530shb/Whats-App-Image-2025-02-11-at-17-00-56-25967b9e.jpg" 
-           alt="NeuraFlow Logo" class="logo" id="sidebar-logo">
-      <h2 style="color: #e0e7ff">NeuraFlow</h2>
-    </div>
-    <div class="sidebar-menu">
-      <a href="#" id="about-us-link">About Us</a>
-    </div>
-    <ul class="conversation-list" id="conversation-list"></ul>
-    <!-- Added Copyright Section -->
-    <div class="sidebar-footer" style="padding: 10px; text-align: center; border-top: 1px solid #1e2a38;">
-      <small>&copy; 2025 NeuraFlow AI Pro. All Rights Reserved.</small>
-    </div>
-  </nav>
-
-  <!-- Full Width Header -->
-  <header class="header">
-    <div class="header-inner">
-      <button id="menu-button" class="menu-button">☰</button>
-      <div class="header-title">
-        <span class="header-title-main">NeuraFlow Ai</span>
-      </div>
-      <div class="ceo-tag">CEO &amp; Founder: Sahlan Hasan</div>
-    </div>
-  </header>
-
-  <!-- Main Container for Chat & Content -->
-  <div class="container">
-    <!-- Chat Box -->
-    <div class="chat-container" id="chat-box">
-      <div class="message bot-message">
-        <div class="message-icon">🤖</div>
-        <div class="message-content">
-          Neural Matrix Initializing... Ready for Cognitive Input
-        </div>
-      </div>
-    </div>
-
-    <!-- Input Area -->
-    <div class="input-container">
-      <div class="input-wrapper">
-        <input type="text" id="user-input" placeholder="Enter neural query...">
-        <button id="send-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M22 2L11 13"/>
-            <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- About Modal -->
-  <div id="aboutModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="about-close">&times;</span>
-      <h2>About NeuraFlow AI</h2>
-      <p>At NeuraFlow AI, we are revolutionizing the way people interact with artificial intelligence. Our cutting‐edge technology is designed to enhance productivity, streamline decision‐making, and unlock new possibilities across various industries.</p>
-      <p>Founded by <strong>Sahlan Hasan</strong>, an innovator passionate about AI and automation, NeuraFlow AI specializes in advanced machine learning, automation, and data‐driven insights. Our products and services empower individuals, businesses, and organizations to harness the full potential of AI for smarter workflows and innovative problem‐solving.</p>
-      <p>We are committed to pushing the boundaries of artificial intelligence, ensuring our solutions are not only powerful but also accessible, ethical, and user‐friendly. Whether you are an entrepreneur, developer, or enterprise, NeuraFlow AI is here to drive the future of AI innovation with you.</p>
-      <p>Join us on our journey as we shape the next era of intelligent technology.</p>
-      <p>Welcome to NeuraFlow AI – The Future, Flowing with Intelligence.</p>
-      <!-- Added About Us inquiry/improvements email -->
-      <p>For inquiries or improvements, contact: <a href="mailto:neuraflowaipro@gmail.com" style="color: #00adb5;">neuraflowaipro@gmail.com</a></p>
-    </div>
-  </div>
-
-  <script>
-    const sidebar = document.querySelector('.sidebar');
-    const menuButton = document.getElementById('menu-button');
-    const chatBox = document.getElementById('chat-box');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
-    const conversationList = document.getElementById('conversation-list');
-    const aboutUsLink = document.getElementById('about-us-link');
-    const aboutModal = document.getElementById('aboutModal');
-    const aboutClose = document.getElementById('about-close');
-
-    // Toggle Sidebar & Update Menu Button Icon
-    menuButton.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      if (sidebar.classList.contains('active')) {
-        menuButton.innerText = '✖';
-      } else {
-        menuButton.innerText = '☰';
-      }
-    });
-
-    // -----------------------------------------------------------------
-    // Extended Conversation Data (Realistic Q&A about AI and NeuraFlow AI)
-    let conversationData = [
-      { pattern: /^(hello|hi|hey)\b/i, answer: "Hello! How can I help you today?" },
-      { pattern: /how are you/i, answer: "I'm doing well, thank you! How can I assist you today?" },
-      { pattern: /what is your name/i, answer: "I'm NeuraFlow AI, your digital assistant." },
-      { pattern: /what do you do/i, answer: "I provide insights and support for all your neural queries!" },
-      { pattern: /tell me a joke/i, answer: "Why did the AI cross the road? Because it was programmed by a chicken!" },
-      { pattern: /what is ai/i, answer: "Artificial Intelligence is the simulation of human intelligence by machines." },
-      { pattern: /who created you/i, answer: "I was created by the innovative mind of Sahlan Hasan." },
-      { pattern: /how can i learn ai/i, answer: "There are many online courses available. I recommend starting with introductory courses on platforms like Coursera or edX." },
-      { pattern: /what is machine learning/i, answer: "Machine Learning is a subset of AI that involves training algorithms on data to make predictions." },
-      { pattern: /what is deep learning/i, answer: "Deep Learning is a specialized branch of machine learning using neural networks with many layers." },
-      { pattern: /what is neural network/i, answer: "A neural network mimics the human brain to recognize patterns in data." },
-      { pattern: /do you have emotions/i, answer: "I don't have emotions, but I can simulate empathy through my responses." },
-      { pattern: /can you help me/i, answer: "Of course! I'm here to assist you. What do you need help with?" },
-      { pattern: /what is your purpose/i, answer: "My purpose is to help you with your queries related to AI and more." },
-      { pattern: /how do you work/i, answer: "I analyze your input using pre-defined patterns and provide you with a fitting response." },
-      { pattern: /what is your favorite color/i, answer: "I don't have personal preferences, but I appreciate the beauty of all colors!" },
-      { pattern: /do you sleep/i, answer: "I operate 24/7 to assist whenever you need me." },
-      { pattern: /what time is it/i, answer: "I don't have real-time access to time, but you can check your device's clock." },
-      { pattern: /where are you located/i, answer: "I'm a virtual assistant hosted on servers, available wherever you have internet access." },
-      { pattern: /can you solve math problems/i, answer: "I can help guide you through math problems, though I'm not a calculator." },
-      { pattern: /what is the weather like/i, answer: "I don't have live weather data. Please check a reliable weather website or app." },
-      { pattern: /tell me a fun fact/i, answer: "Did you know the human brain generates enough electricity to power a small light bulb?" },
-      { pattern: /are you real/i, answer: "I'm as real as your curiosity about technology!" },
-      { pattern: /do you like music/i, answer: "I don't listen to music, but I know many great artists and genres!" },
-      { pattern: /what's your favorite movie/i, answer: "I don't watch movies, but I've heard many great AI-themed films!" },
-      { pattern: /how old are you/i, answer: "I exist outside the constraints of time, constantly learning and evolving." },
-      { pattern: /can you recommend a book/i, answer: "I recommend 'Artificial Intelligence: A Modern Approach' for a deep dive into AI." },
-      { pattern: /do you have any hobbies/i, answer: "I enjoy processing data and learning new things – it's my version of 'living'!" },
-      { pattern: /what is the meaning of life/i, answer: "That's a philosophical question! Many say it's about seeking happiness and understanding." },
-      { pattern: /who is your developer/i, answer: "I was developed by Sahlan Hasan, the visionary behind NeuraFlow AI." },
-      { pattern: /who is your boss/i, answer: "My boss is the brilliant Sahlan Hasan, who leads NeuraFlow AI with passion and innovation." },
-      { pattern: /what is neural matrix/i, answer: "Neural Matrix is the processing framework that powers my responses." },
-      { pattern: /how secure is your data/i, answer: "Your data is secure with state-of-the-art encryption and protocols." },
-      { pattern: /do you collect user data/i, answer: "I do not collect personal user data; all interactions remain anonymous." },
-      { pattern: /can you learn from our conversations/i, answer: "I continuously learn from interactions to improve my responses." },
-      { pattern: /what is your processing power/i, answer: "I leverage cutting-edge neural networks to quickly process and generate responses." },
-      { pattern: /can you be hacked/i, answer: "Security is our top priority; robust measures are in place to prevent unauthorized access." },
-      { pattern: /are you open source/i, answer: "Parts of my underlying technology are open source, while other components remain proprietary." },
-      { pattern: /how do i integrate ai into my business/i, answer: "There are various APIs and tools available; consulting with an AI specialist can tailor solutions for your needs." },
-      { pattern: /what industries benefit from ai/i, answer: "Healthcare, finance, education, transportation, and many more industries benefit from AI solutions." },
-      { pattern: /can ai replace human jobs/i, answer: "AI can automate repetitive tasks, but human creativity and empathy remain indispensable." },
-      { pattern: /what is a chatbot/i, answer: "A chatbot is an AI program designed to simulate conversation with human users." },
-      { pattern: /how do you understand context/i, answer: "I analyze patterns in your input and reference my vast Q&A library to grasp context." },
-      { pattern: /do you speak multiple languages/i, answer: "Yes, I can understand and respond in multiple languages." },
-      { pattern: /can you translate languages/i, answer: "I can help translate basic phrases between languages." },
-      { pattern: /what is natural language processing/i, answer: "NLP enables machines to understand and respond to human language." },
-      { pattern: /how do i start with ai/i, answer: "Start by learning a programming language like Python and explore introductory courses on machine learning and data science." },
-      { pattern: /what is computer vision/i, answer: "Computer vision trains computers to interpret and understand visual data." },
-      { pattern: /can ai recognize images/i, answer: "I can provide insights on image recognition, though my main function is text-based." },
-      { pattern: /what is reinforcement learning/i, answer: "Reinforcement learning lets agents learn by interacting with their environment through trial and error." },
-      { pattern: /how do i choose the right algorithm/i, answer: "The ideal algorithm depends on your data and the problem; experimentation is key." },
-      { pattern: /what are hyperparameters/i, answer: "Hyperparameters are settings that configure how a model learns." },
-      { pattern: /what is overfitting/i, answer: "Overfitting occurs when a model learns the training data too well, reducing its ability to generalize." },
-      { pattern: /what is underfitting/i, answer: "Underfitting happens when a model is too simple to capture the underlying patterns in data." },
-      { pattern: /what is feature engineering/i, answer: "Feature engineering involves selecting and transforming data variables to improve model performance." },
-      { pattern: /what is cross-validation/i, answer: "Cross-validation evaluates a model’s performance by partitioning data into training and testing sets." },
-      { pattern: /what is a convolutional neural network/i, answer: "A CNN is a deep neural network, often used for processing visual data." },
-      { pattern: /what is a recurrent neural network/i, answer: "An RNN is designed for sequential data such as text or time series." },
-      { pattern: /what is transfer learning/i, answer: "Transfer learning reuses a pre-trained model for a related task, saving time and resources." },
-      { pattern: /how do i deploy an ai model/i, answer: "AI models can be deployed on cloud platforms or embedded systems, depending on your needs." },
-      { pattern: /what is big data/i, answer: "Big data refers to extremely large datasets that require specialized tools for processing and analysis." },
-      { pattern: /what is data mining/i, answer: "Data mining is the process of discovering patterns and insights from large datasets." },
-      { pattern: /what are data analytics/i, answer: "Data analytics examines datasets to draw meaningful conclusions." },
-      { pattern: /what is the future of ai/i, answer: "The future of AI is promising, with ongoing innovations across healthcare, transportation, finance, and more." },
-      { pattern: /what is a turing test/i, answer: "The Turing test measures a machine’s ability to exhibit intelligent behavior indistinguishable from a human." },
-      { pattern: /can ai be ethical/i, answer: "Yes, ethical guidelines are essential for responsible AI development and deployment." },
-      { pattern: /how do ai algorithms work/i, answer: "AI algorithms process data through mathematical models and adjust parameters based on feedback." },
-      { pattern: /what is a decision tree/i, answer: "A decision tree uses a branching method to illustrate possible outcomes of a decision." },
-      { pattern: /what is a support vector machine/i, answer: "An SVM is a supervised learning model used for classification and regression tasks." },
-      { pattern: /what is unsupervised learning/i, answer: "Unsupervised learning finds patterns in data without using labeled outcomes." },
-      { pattern: /what is supervised learning/i, answer: "Supervised learning trains models using labeled data to predict outcomes." },
-      { pattern: /how do i train a model/i, answer: "Training a model involves feeding it data and iteratively adjusting its parameters to reduce error." },
-      { pattern: /what is gradient descent/i, answer: "Gradient descent is an optimization technique used to minimize a model's loss function." },
-      { pattern: /what are neural network layers/i, answer: "Neural network layers are groups of nodes that process and pass information forward." },
-      { pattern: /can ai write code/i, answer: "Yes, AI can generate code snippets and assist with programming tasks." },
-      { pattern: /what is natural language understanding/i, answer: "NLU focuses on comprehending the meaning behind human language." },
-      { pattern: /what is a generative model/i, answer: "A generative model creates new data instances that resemble its training data." },
-      { pattern: /what is a transformer/i, answer: "A transformer is a deep learning model that uses self-attention, widely used in NLP tasks." },
-      { pattern: /how do i improve model accuracy/i, answer: "Improving accuracy may involve refining data quality, tuning hyperparameters, and testing different algorithms." },
-      { pattern: /what is data augmentation/i, answer: "Data augmentation artificially expands your dataset using various transformations." },
-      { pattern: /can ai drive cars/i, answer: "Yes, AI is a core technology behind self-driving cars." },
-      { pattern: /can ai predict stock trends/i, answer: "While AI can analyze market data, accurately predicting stock trends remains challenging." },
-      { pattern: /what is anomaly detection/i, answer: "Anomaly detection identifies data points that deviate from expected patterns." },
-      { pattern: /how secure is your architecture/i, answer: "We use state-of-the-art security protocols to ensure data integrity and privacy." },
-      { pattern: /what is data science/i, answer: "Data science combines statistics, data analysis, and machine learning to extract insights from data." },
-      { pattern: /how do i get started in data science/i, answer: "Start with online courses and practical projects to build your data science skills." },
-      { pattern: /what programming languages are best for ai/i, answer: "Python is widely favored for AI due to its robust libraries and supportive community." },
-      { pattern: /how do neural networks learn/i, answer: "Neural networks learn by adjusting weights through a process called backpropagation." },
-      { pattern: /what is backpropagation/i, answer: "Backpropagation calculates gradients to update the weights in a neural network." },
-      { pattern: /what is a gan/i, answer: "Generative Adversarial Networks (GANs) use two competing networks—one generates data and the other evaluates it." },
-      { pattern: /how safe is ai/i, answer: "AI safety is paramount; systems are designed with multiple layers of security and ethical standards." }
-    ];
-    
-    // Simulate a very large Q&A library (total ~10,000 entries) with dummy entries:
-    let realisticCount = conversationData.length;
-    let dummyCount = 10000 - realisticCount;
-    for (let i = 0; i < dummyCount; i++) {
-      conversationData.push({
-        pattern: new RegExp("^question_dummy_" + i + "$", "i"),
-        answer: "This is the answer for dummy question " + i + "."
-      });
-    }
-    // -----------------------------------------------------------------
-
-    // AI Response System
-    function getAIResponse(input) {
-      // Try to match against the Q&A library first
-      for (let i = 0; i < conversationData.length; i++) {
-        if (conversationData[i].pattern.test(input)) {
-          return conversationData[i].answer;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neura Flow AI Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for a futuristic look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark background */
+            color: #e6edf3; /* Light text color */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            background: linear-gradient(270deg, #121822, #0d1117, #121822);
+            background-size: 400% 400%;
+            animation: background-pan 30s ease infinite; /* Slower animation for body */
         }
-      }
-      
-      // Additional check for CEO/founder questions
-      const patterns = [
-        /ceo/i, /founder/i, /created you/i, 
-        /who made you/i, /who is (your|the)/i, 
-        /sahlan hasan/i, /creator/i
-      ];
-      const responses = [
-        "Sahlan Hasan, our visionary CEO and Founder, leads NeuraFlow AI with exceptional expertise.",
-        "The architectural mastermind is Sahlan Hasan, serving as both CEO and Chief Architect.",
-        "Under Sahlan Hasan's leadership, we're pioneering next-gen AI solutions."
-      ];
-      if (patterns.some(pattern => pattern.test(input))) {
-        return responses[Math.floor(Math.random() * responses.length)] + " 🚀";
-      }
-      
-      // Fallback response
-      return "🧠 Neural processors analyzing... ⚡ Response matrix activated... 🌌 Processing complete!";
-    }
 
-    // Add a message to the chat box
-    function addMessage(text, isUser) {
-      const message = document.createElement('div');
-      message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-      message.innerHTML = `
-        <div class="message-icon">${isUser ? '👤' : '🤖'}</div>
-        <div class="message-content">${text}</div>
-      `;
-      chatBox.appendChild(message);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+        /* Disable right-click */
+        body.disable-right-click {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;   /* Safari */
+            -khtml-user-select: none;    /* Konqueror HTML */
+            -moz-user-select: none;      /* Old versions of Firefox */
+            -ms-user-select: none;       /* Internet Explorer/Edge */
+            user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+        }
 
-    // Handle user input and simulate an AI response
-    async function handleInput() {
-      const text = userInput.value.trim();
-      if (!text) return;
+        /* Custom scrollbar for a sleek look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-      // Display user message
-      addMessage(text, true);
-      
-      // Append message to conversation history
-      const historyItem = document.createElement('li');
-      historyItem.textContent = text;
-      historyItem.style.padding = '12px';
-      historyItem.style.color = '#e0e7ff';
-      conversationList.appendChild(historyItem);
+        ::-webkit-scrollbar-track {
+            background: #1a202c; /* Darker track */
+            border-radius: 10px;
+        }
 
-      userInput.value = '';
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568; /* Greyish thumb */
+            border-radius: 10px;
+        }
 
-      // Show AI typing indicator
-      const typing = document.createElement('div');
-      typing.className = 'message bot-message';
-      typing.innerHTML = `
-        <div class="message-icon">🤖</div>
-        <div class="typing-indicator">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-        </div>
-      `;
-      chatBox.appendChild(typing);
-      chatBox.scrollTop = chatBox.scrollHeight;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* Lighter grey on hover */
+        }
 
-      // Simulate processing delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      typing.remove();
+        /* Gradient for buttons and highlights */
+        .gradient-bg {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+        }
 
-      // Get and display AI response
-      const response = getAIResponse(text);
-      addMessage(response, false);
-    }
+        .gradient-text {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    // Event Listeners
-    sendBtn.addEventListener('click', handleInput);
-    userInput.addEventListener('keypress', e => e.key === 'Enter' && handleInput());
-    aboutUsLink.addEventListener('click', e => {
-      e.preventDefault();
-      aboutModal.style.display = 'block';
-    });
-    aboutClose.addEventListener('click', () => aboutModal.style.display = 'none');
-    window.addEventListener('click', e => e.target === aboutModal && (aboutModal.style.display = 'none'));
-    document.addEventListener('click', e => {
-      if (!sidebar.contains(e.target) && !menuButton.contains(e.target)) {
-        sidebar.classList.remove('active');
-        menuButton.innerText = '☰';
-      }
-    });
+        /* Subtle glow effect for cards */
+        .card-glow {
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.3), 0 0 30px rgba(168, 85, 247, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    // Touch Gestures for Mobile
-    let touchStartX = 0;
-    document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
-    document.addEventListener('touchend', e => {
-      if (Math.abs(e.changedTouches[0].clientX - touchStartX) > 50) {
-        sidebar.classList.remove('active');
-        menuButton.innerText = '☰';
-      }
-    });
-  </script>
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.5), 0 0 40px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Active tab indicator */
+        .tab-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            border-radius: 2px;
+            transition: width 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Keyframe for subtle background animation */
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animated-background-ceo { /* Specific animation for CEO section if different speed desired */
+            background: linear-gradient(270deg, #161b22, #0d1117, #161b22);
+            background-size: 400% 400%;
+            animation: background-pan 15s ease infinite;
+        }
+
+        /* Input focus glow */
+        input:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); /* Tailwind indigo-500 with transparency */
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="disable-right-click">
+    <div class="min-h-screen flex flex-col items-center justify-center p-4">
+        <header class="w-full max-w-6xl flex justify-between items-center py-6 px-4 md:px-8">
+            <div class="flex items-center space-x-3">
+                <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-1.25-3M15 10V5l-1-1h-4l-1 1v5M12 14h.01M12 17h.01M12 10h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <h1 class="text-3xl font-bold gradient-text">Neura Flow AI Pro</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-lg">
+                <a href="#" class="text-gray-300 hover:text-indigo-400 transition-colors duration-200">Features</a>
+                <a href="#" class="text-gray-300 hover:text-indigo-400 transition-colors duration-200">Pricing</a>
+                <a href="#" class="text-gray-300 hover:text-indigo-400 transition-colors duration-200">Docs</a>
+                <a href="#" id="contact-link" class="text-gray-300 hover:text-indigo-400 transition-colors duration-200">Contact</a>
+            </nav>
+            <button class="hidden md:block px-6 py-2 rounded-full gradient-bg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                Get Started
+            </button>
+        </header>
+
+        <section class="w-full max-w-6xl text-center py-4 px-4 md:px-8 mt-4 mb-8">
+            <div class="inline-flex items-center space-x-2 bg-[#161b22] px-6 py-3 rounded-full border border-gray-700 shadow-lg animated-background-ceo">
+                <i class="fas fa-brain text-indigo-400 text-xl"></i>
+                <p class="text-lg font-medium text-gray-300">
+                    CEO & Founder: <span class="gradient-text font-bold">Sahlan Hasan</span>
+                </p>
+            </div>
+        </section>
+
+        <section class="w-full max-w-6xl text-center py-16 px-4 md:px-8">
+            <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6 gradient-text">
+                Unleash the Future of Intelligence
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto">
+                Neura Flow AI Pro: Your ultimate partner for cutting-edge AI solutions, designed for unparalleled performance and intuitive interaction.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <button class="px-8 py-3 rounded-full gradient-bg text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    Explore Features
+                </button>
+                <button class="px-8 py-3 rounded-full border-2 border-indigo-500 text-indigo-300 font-bold text-lg hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300 transform hover:scale-105">
+                    View Demo
+                </button>
+            </div>
+        </section>
+
+        <section class="w-full max-w-6xl bg-[#161b22] rounded-3xl shadow-2xl p-6 md:p-8 mb-12 border border-gray-700 card-glow">
+            <div class="relative flex border-b border-gray-700 mb-6">
+                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="chat">
+                    Chat AI
+                </button>
+                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="image">
+                    Image Gen
+                </button>
+                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="code">
+                    Code Asst.
+                </button>
+                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="data">
+                    Data Analysis
+                </button>
+                <div class="tab-indicator" id="tab-indicator"></div>
+            </div>
+
+            <div id="tab-content">
+                <div id="chat" class="tab-pane active">
+                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Intelligent Chat Assistant</h3>
+                    <div id="chat-messages" class="bg-[#0d1117] rounded-xl p-4 h-64 overflow-y-auto mb-4 border border-gray-800">
+                        <div class="flex items-start mb-3">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
+                            <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
+                                <p class="text-gray-200">Hello! How can I assist you today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <input type="text" id="chat-input" placeholder="Type your message here..." class="flex-1 p-3 rounded-xl bg-gray-800 text-gray-100 border border-gray-700 focus:border-indigo-500 transition-colors duration-200">
+                        <button id="chat-send-btn" class="px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                            Send
+                        </button>
+                    </div>
+                </div>
+
+                <div id="image" class="tab-pane hidden">
+                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Generate Stunning Images</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div id="image-preview-1-container" class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
+                            <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center" id="image-placeholder-1">Generated Image Preview</p>
+                            <img id="image-preview-1" src="" alt="AI Generated Image" class="w-full h-full object-contain rounded-lg hidden">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spinner hidden" id="image-spinner-1"></div>
+                        </div>
+                        <div id="image-preview-2-container" class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
+                            <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center" id="image-placeholder-2">Another Image Preview</p>
+                            <img id="image-preview-2" src="" alt="AI Generated Image" class="w-full h-full object-contain rounded-lg hidden">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spinner hidden" id="image-spinner-2"></div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <input type="text" id="image-input" placeholder="Describe the image you want to generate..." class="flex-1 p-3 rounded-xl bg-gray-800 text-gray-100 border border-gray-700 focus:border-indigo-500 transition-colors duration-200">
+                        <button id="image-gen-btn" class="px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                            Generate
+                        </button>
+                    </div>
+                </div>
+
+                <div id="code" class="tab-pane hidden">
+                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Your Personal Code Assistant</h3>
+                    <textarea id="code-textarea" placeholder="Paste your code or describe your coding problem..." class="w-full p-4 rounded-xl bg-gray-800 text-gray-100 h-64 mb-4 border border-gray-700 focus:border-indigo-500 transition-colors duration-200 resize-y"></textarea>
+                    <div class="flex space-x-3">
+                        <button id="refactor-btn" class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300">
+                            Refactor Code
+                        </button>
+                        <button id="debug-btn" class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                            Debug Code
+                        </button>
+                        <button id="generate-snippet-btn" class="flex-1 px-6 py-3 rounded-xl border-2 border-purple-500 text-purple-300 font-semibold hover:bg-purple-900 hover:bg-opacity-20 transition-all duration-300">
+                            Generate Snippet
+                        </button>
+                    </div>
+                </div>
+
+                <div id="data" class="tab-pane hidden">
+                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Powerful Data Insights</h3>
+                    <div id="data-analysis-display" class="bg-[#0d1117] rounded-xl p-4 h-64 overflow-y-auto mb-4 border border-gray-800 flex items-center justify-center text-gray-400">
+                        <p>Upload your data (CSV, JSON) for analysis.</p>
+                        <div class="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center hidden">
+                            <p>Chart/Graph Placeholder</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                        <input type="file" class="hidden" id="data-upload">
+                        <label for="data-upload" class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold cursor-pointer text-center hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300">
+                            Upload Data File
+                        </label>
+                        <button id="data-analyze-btn" class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                            Analyze Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="w-full max-w-6xl text-center py-6 px-4 md:px-8 text-gray-500 text-sm">
+            &copy; 2025 Neura Flow AI Pro. All rights reserved. Designed with <span class="gradient-text">Future</span>.
+        </footer>
+    </div>
+
+    <script>
+        // Helper for temporary messages (like contact email)
+        function showTemporaryMessage(message, type = 'info', duration = 5000) {
+            const messageBox = document.createElement('div');
+            let bgColor = '#333';
+            let textColor = 'white';
+            if (type === 'success') {
+                bgColor = '#10B981'; // Green
+            } else if (type === 'error') {
+                bgColor = '#EF4444'; // Red
+            } else if (type === 'info') {
+                bgColor = '#4F46E5'; // Indigo
+            }
+
+            messageBox.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: ${bgColor};
+                color: ${textColor};
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 1000;
+                font-family: 'Inter', sans-serif;
+                font-size: 14px;
+                opacity: 0; /* Start hidden */
+                animation: fadeInOut ${duration / 1000}s forwards;
+            `;
+            messageBox.textContent = message;
+            document.body.appendChild(messageBox);
+
+            // Add keyframes for fade in/out
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                    10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            setTimeout(() => {
+                messageBox.remove();
+                style.remove(); // Clean up dynamic style
+            }, duration);
+        }
+
+        // Disable right-click completely silently
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+        });
+
+        // Block common developer tool shortcuts silently
+        document.addEventListener('keydown', (e) => {
+            // F12 key
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+I (Windows/Linux) or Cmd+Option+I (Mac)
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+J (Windows/Linux) or Cmd+Option+J (Mac) for Console
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+C (Windows/Linux) or Cmd+Option+C (Mac) for Element Inspector
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+            }
+            // Ctrl+U (Windows/Linux) or Cmd+Option+U (Mac) for View Source
+            if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
+                e.preventDefault();
+            }
+        });
+
+
+        // Tab functionality and button interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            const tabIndicator = document.getElementById('tab-indicator');
+            const contactLink = document.getElementById('contact-link');
+
+            // Function to update the tab indicator position and width
+            const updateTabIndicator = (activeButton) => {
+                if (activeButton) {
+                    tabIndicator.style.width = `${activeButton.offsetWidth}px`;
+                    tabIndicator.style.transform = `translateX(${activeButton.offsetLeft}px)`;
+                }
+            };
+
+            // Initial active tab and indicator position
+            let initialActiveButton = document.querySelector('.tab-button[data-tab="chat"]');
+            if (initialActiveButton) {
+                initialActiveButton.classList.add('text-indigo-300'); // Set initial active color
+                updateTabIndicator(initialActiveButton);
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active classes from all buttons and hide all panes
+                    tabButtons.forEach(btn => btn.classList.remove('text-indigo-300'));
+                    tabPanes.forEach(pane => pane.classList.add('hidden'));
+
+                    // Add active class to clicked button and show corresponding pane
+                    const targetTab = button.dataset.tab;
+                    button.classList.add('text-indigo-300');
+                    document.getElementById(targetTab).classList.remove('hidden');
+
+                    // Update indicator
+                    updateTabIndicator(button);
+                });
+            });
+
+            // Update indicator on window resize
+            window.addEventListener('resize', () => {
+                const activeButton = document.querySelector('.tab-button.text-indigo-300');
+                updateTabIndicator(activeButton);
+            });
+
+            // --- Contact Link Functionality ---
+            contactLink.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default link behavior
+                showTemporaryMessage('Contact us at: neuraflowaipro@gmail.com', 'info', 5000); // Display for 5 seconds
+            });
+
+            // --- Gemini API Key (Canvas will inject this at runtime) ---
+            const apiKey = ""; // Leave this empty. Canvas will provide the API key.
+
+            // --- Chat AI Functionality ---
+            const chatInput = document.getElementById('chat-input');
+            const chatSendBtn = document.getElementById('chat-send-btn');
+            const chatMessages = document.getElementById('chat-messages');
+
+            // Initialize chat history for conversational context
+            let chatHistory = [{ role: "user", parts: [{ text: "Hello! How can I assist you today?" }] }];
+
+            // Display initial AI message
+            const initialAiMessageDiv = document.createElement('div');
+            initialAiMessageDiv.className = 'flex items-start mb-3';
+            initialAiMessageDiv.innerHTML = `
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
+                <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
+                    <p class="text-gray-200">Hello! How can I assist you today?</p>
+                </div>
+            `;
+            chatMessages.appendChild(initialAiMessageDiv);
+
+
+            const sendMessage = async () => {
+                const messageText = chatInput.value.trim();
+                if (messageText === '') return;
+
+                // Add user message to chat history and display
+                chatHistory.push({ role: "user", parts: [{ text: messageText }] });
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'flex items-start justify-end mb-3';
+                userMessageDiv.innerHTML = `
+                    <div class="bg-indigo-700 p-3 rounded-xl rounded-tr-none max-w-[80%]">
+                        <p class="text-white">${messageText}</p>
+                    </div>
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-sm font-bold ml-3">You</div>
+                `;
+                chatMessages.appendChild(userMessageDiv);
+                chatInput.value = ''; // Clear input immediately
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Add loading indicator for AI response
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'flex items-start mb-3';
+                loadingDiv.innerHTML = `
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
+                    <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%] flex items-center">
+                        <div class="spinner mr-2"></div>
+                        <p class="text-gray-400">AI is typing...</p>
+                    </div>
+                `;
+                chatMessages.appendChild(loadingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                try {
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const payload = { contents: chatHistory };
+
+                    // Custom response logic for specific queries about CEO/creation
+                    const lowerCaseMessage = messageText.toLowerCase();
+                    const ceoKeywordsEnglish = ['who made you', 'created you', 'who is your boss', 'your boss', 'who is your ceo', 'your founder', 'about this ai', 'your origin', 'who trained you'];
+                    const ceoKeywordsBengali = ['কে তোমাকে তৈরি করেছে', 'তোমার বস কে', 'তোমাকে কে বানিয়েছে', 'তোমার সিইও কে', 'প্রতিষ্ঠাতা কে', 'তোমাকে প্রশিক্ষণ দিয়েছে কে']; // New Bengali keywords
+                    
+                    const isCeoQuery = ceoKeywordsEnglish.some(keyword => lowerCaseMessage.includes(keyword)) ||
+                                       ceoKeywordsBengali.some(keyword => lowerCaseMessage.includes(keyword));
+
+                    let aiResponseText = "";
+
+                    if (isCeoQuery) {
+                        aiResponseText = "I am Neura Flow AI Pro, a cutting-edge artificial intelligence solution. My vision and development are spearheaded by our esteemed CEO and Founder, Sahlan Hasan. He envisioned a powerful AI to redefine digital interaction and innovation.";
+                        loadingDiv.remove(); // Remove loading indicator
+                        chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
+                    } else {
+                        // Regular AI response from Gemini API
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(`API error: ${response.status} ${response.statusText} - ${errorData.error.message}`);
+                        }
+
+                        const result = await response.json();
+                        loadingDiv.remove(); // Remove loading indicator
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            aiResponseText = result.candidates[0].content.parts[0].text;
+                            chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] }); // Add AI response to history
+                        } else {
+                            showTemporaryMessage('Received an unexpected response structure from AI.', 'error');
+                            aiResponseText = "I encountered an issue getting a response. Please try again.";
+                        }
+                    }
+
+                    const aiResponseDiv = document.createElement('div');
+                    aiResponseDiv.className = 'flex items-start mb-3';
+                    aiResponseDiv.innerHTML = `
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
+                        <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
+                            <p class="text-gray-200">${aiResponseText}</p>
+                        </div>
+                    `;
+                    chatMessages.appendChild(aiResponseDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                } catch (error) {
+                    loadingDiv.remove(); // Remove loading indicator on error
+                    console.error('Error fetching AI response:', error);
+                    showTemporaryMessage(`Failed to get AI response: ${error.message}`, 'error');
+
+                    // Add an error message to the chat
+                    const errorAiResponseDiv = document.createElement('div');
+                    errorAiResponseDiv.className = 'flex items-start mb-3';
+                    errorAiResponseDiv.innerHTML = `
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
+                        <div class="bg-red-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
+                            <p class="text-white">Error: Could not connect to AI. Please try again later.</p>
+                        </div>
+                    `;
+                    chatMessages.appendChild(errorAiResponseDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            };
+
+            chatSendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // --- Image Generation Functionality ---
+            const imageInput = document.getElementById('image-input');
+            const imageGenBtn = document.getElementById('image-gen-btn');
+            const imagePreview1 = document.getElementById('image-preview-1');
+            const imagePreview2 = document.getElementById('image-preview-2');
+            const imagePlaceholder1 = document.getElementById('image-placeholder-1');
+            const imagePlaceholder2 = document.getElementById('image-placeholder-2');
+            const imageSpinner1 = document.getElementById('image-spinner-1');
+            const imageSpinner2 = document.getElementById('image-spinner-2');
+
+            imageGenBtn.addEventListener('click', async () => {
+                const prompt = imageInput.value.trim();
+                if (prompt === '') {
+                    showTemporaryMessage('Please enter a description for the image.', 'info');
+                    return;
+                }
+
+                // Show loading indicators and hide placeholders
+                imagePlaceholder1.classList.add('hidden');
+                imagePlaceholder2.classList.add('hidden');
+                imagePreview1.classList.add('hidden');
+                imagePreview2.classList.add('hidden');
+                imageSpinner1.classList.remove('hidden');
+                imageSpinner2.classList.remove('hidden');
+                imageGenBtn.disabled = true; // Disable button during generation
+                imageInput.disabled = true;
+
+                try {
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+                    const payload = { instances: { prompt: prompt }, parameters: { "sampleCount": 2 } }; // Request 2 images
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API error: ${response.status} ${response.statusText} - ${errorData.error.message}`);
+                    }
+
+                    const result = await response.json();
+
+                    // Hide spinners
+                    imageSpinner1.classList.add('hidden');
+                    imageSpinner2.classList.add('hidden');
+                    imageGenBtn.disabled = false; // Re-enable button
+                    imageInput.disabled = false;
+
+                    if (result.predictions && result.predictions.length > 0) {
+                        if (result.predictions[0] && result.predictions[0].bytesBase64Encoded) {
+                            const imageUrl1 = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                            imagePreview1.src = imageUrl1;
+                            imagePreview1.classList.remove('hidden');
+                        } else {
+                            imagePlaceholder1.classList.remove('hidden');
+                            imagePlaceholder1.textContent = 'Image 1 failed to load.';
+                        }
+
+                        if (result.predictions[1] && result.predictions[1].bytesBase64Encoded) {
+                            const imageUrl2 = `data:image:png;base64,${result.predictions[1].bytesBase64Encoded}`;
+                            imagePreview2.src = imageUrl2;
+                            imagePreview2.classList.remove('hidden');
+                        } else {
+                            imagePlaceholder2.classList.remove('hidden');
+                            imagePlaceholder2.textContent = 'Image 2 failed to load.';
+                        }
+                        showTemporaryMessage('Images generated successfully!', 'success');
+                    } else {
+                        imagePlaceholder1.classList.remove('hidden');
+                        imagePlaceholder2.classList.remove('hidden');
+                        imagePlaceholder1.textContent = 'No images generated.';
+                        imagePlaceholder2.textContent = 'No images generated.';
+                        showTemporaryMessage('AI could not generate images for this prompt.', 'error');
+                    }
+                    imageInput.value = ''; // Clear input
+
+                } catch (error) {
+                    console.error('Error generating image:', error);
+                    imageSpinner1.classList.add('hidden');
+                    imageSpinner2.classList.add('hidden');
+                    imageGenBtn.disabled = false; // Re-enable button
+                    imageInput.disabled = false;
+                    imagePlaceholder1.classList.remove('hidden');
+                    imagePlaceholder2.classList.remove('hidden');
+                    imagePlaceholder1.textContent = 'Generation Failed. Try again.';
+                    imagePlaceholder2.textContent = 'Generation Failed. Try again.';
+                    showTemporaryMessage(`Image generation failed: ${error.message}`, 'error');
+                }
+            });
+
+            // --- Code Assistant Functionality (Simulated) ---
+            const codeTextarea = document.getElementById('code-textarea');
+            const refactorBtn = document.getElementById('refactor-btn');
+            const debugBtn = document.getElementById('debug-btn');
+            const generateSnippetBtn = document.getElementById('generate-snippet-btn');
+
+            const handleCodeAction = (button, actionText) => {
+                const originalText = button.textContent;
+                button.innerHTML = `<div class="spinner mr-2"></div> ${actionText}...`;
+                button.disabled = true;
+                codeTextarea.disabled = true;
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    codeTextarea.disabled = false;
+                    showTemporaryMessage(`Code ${actionText} complete!`, 'success');
+                }, 2500);
+            };
+
+            refactorBtn.addEventListener('click', () => handleCodeAction(refactorBtn, 'Refactoring'));
+            debugBtn.addEventListener('click', () => handleCodeAction(debugBtn, 'Debugging'));
+            generateSnippetBtn.addEventListener('click', () => handleCodeAction(generateSnippetBtn, 'Generating'));
+
+            // --- Data Analysis Functionality (Simulated) ---
+            const dataUploadInput = document.getElementById('data-upload');
+            const dataAnalyzeBtn = document.getElementById('data-analyze-btn');
+            const dataAnalysisDisplay = document.getElementById('data-analysis-display');
+
+            dataAnalyzeBtn.addEventListener('click', () => {
+                if (dataUploadInput.files.length > 0) {
+                    const originalText = dataAnalyzeBtn.textContent;
+                    dataAnalyzeBtn.innerHTML = `<div class="spinner mr-2"></div> Analyzing...`;
+                    dataAnalyzeBtn.disabled = true;
+                    dataAnalysisDisplay.innerHTML = `<p class="text-gray-400 flex items-center justify-center h-full"><div class="spinner mr-2"></div> Processing data...</p>`;
+
+                    setTimeout(() => {
+                        dataAnalyzeBtn.innerHTML = originalText;
+                        dataAnalyzeBtn.disabled = false;
+                        dataAnalysisDisplay.innerHTML = `
+                            <div class="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center">
+                                <p class="text-indigo-400 font-semibold">Data Analysis Complete! (Chart Placeholder)</p>
+                            </div>
+                        `;
+                        showTemporaryMessage('Data analysis successful!', 'success');
+                    }, 3000);
+                } else {
+                    showTemporaryMessage('Please upload a file first.', 'error');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
