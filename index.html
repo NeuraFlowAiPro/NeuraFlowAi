@@ -17,6 +17,27 @@
             background: linear-gradient(270deg, #121822, #0d1117, #121822);
             background-size: 400% 400%;
             animation: background-pan 30s ease infinite; /* Slower animation for body */
+            position: relative; /* Needed for scanline overlay */
+        }
+
+        /* Scanline Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 100; /* Above everything else */
+            opacity: 0.05; /* Very subtle */
         }
 
         /* Disable right-click */
@@ -115,9 +136,190 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* CEO Brain Pulse */
+        @keyframes pulse-icon {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pulse-icon {
+            animation: pulse-icon 2s infinite ease-in-out;
+        }
+
+        /* Animated Grid Overlay for AI Interface */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.1;
+            pointer-events: none; /* Allows clicks to pass through */
+            z-index: 0; /* Ensure it's behind content */
+            animation: grid-fade 10s infinite alternate;
+        }
+
+        @keyframes grid-fade {
+            0% { opacity: 0.05; }
+            50% { opacity: 0.15; }
+            100% { opacity: 0.05; }
+        }
+
+        /* Sparkle/Glimmer effect for Hero Text */
+        .sparkle-text {
+            position: relative;
+            display: inline-block; /* Needed for pseudo-elements */
+        }
+        .sparkle-text::before,
+        .sparkle-text::after,
+        .sparkle-text span::before,
+        .sparkle-text span::after {
+            content: '';
+            position: absolute;
+            background: radial-gradient(circle at center, #a855f7 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 3s infinite ease-out;
+        }
+        .sparkle-text::before {
+            width: 10px; height: 10px;
+            top: 10%; left: -5%;
+            animation-delay: 0.5s;
+        }
+        .sparkle-text::after {
+            width: 12px; height: 12px;
+            bottom: 5%; right: -5%;
+            animation-delay: 1.5s;
+        }
+        .sparkle-text span::before {
+            width: 8px; height: 8px;
+            top: 50%; left: 20%;
+            animation-delay: 1s;
+        }
+        .sparkle-text span::after {
+            width: 11px; height: 11px;
+            bottom: 20%; right: 25%;
+            animation-delay: 2s;
+        }
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            20% { opacity: 0.8; transform: scale(1); }
+            40% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 0; }
+        }
+
+        /* Animated Border for AI Card */
+        .animated-border-glow {
+            position: relative;
+            padding: 4px; /* Space for the pseudo-element border */
+            background-clip: padding-box;
+            border: 1px solid transparent; /* Initial transparent border */
+            border-radius: 32px; /* Match section's border-radius */
+            overflow: hidden; /* Crucial to contain the pseudo-element */
+        }
+
+        .animated-border-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px; bottom: -2px; left: -2px; right: -2px; /* Expand beyond padding */
+            background: linear-gradient(90deg, #6366f1, #a855f7, #6366f1);
+            background-size: 200% 100%;
+            border-radius: inherit;
+            z-index: -1;
+            animation: border-glow-animation 4s linear infinite;
+        }
+
+        @keyframes border-glow-animation {
+            0% { background-position: 0% 0%; }
+            100% { background-position: -200% 0%; }
+        }
+
+        /* Canvas for background particles */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Behind everything */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        /* AI Visualizer Pulse */
+        @keyframes ai-visualizer-pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+        .ai-visualizer {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(45deg, #6366f1, #a855f7);
+            border-radius: 50%;
+            animation: ai-visualizer-pulse 1.5s infinite ease-in-out;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        /* Hero Text Glitch Effect */
+        .glitch-text {
+            animation: glitch 2.5s infinite alternate;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* AI Message Bubble Glow */
+        @keyframes bubble-glow {
+            0% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+        }
+        .ai-message-bubble-glow {
+            animation: bubble-glow 3s infinite ease-in-out;
+        }
+
+        /* Button Hover Energy Pulse */
+        .btn-energy-pulse {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn-energy-pulse::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out;
+            opacity: 0;
+            z-index: -1;
+        }
+        .btn-energy-pulse:hover::before {
+            width: 200%;
+            height: 200%;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="disable-right-click">
+    <canvas id="particle-canvas"></canvas> <!-- Particle background -->
+
     <div class="min-h-screen flex flex-col items-center justify-center p-4">
         <header class="w-full max-w-6xl flex justify-between items-center py-6 px-4 md:px-8">
             <div class="flex items-center space-x-3">
@@ -132,14 +334,14 @@
                 <a href="#" class="text-gray-300 hover:text-indigo-400 transition-colors duration-200">Docs</a>
                 <a href="#" id="contact-link" class="text-gray-300 hover:text-indigo-400 transition-colors duration-200">Contact</a>
             </nav>
-            <button class="hidden md:block px-6 py-2 rounded-full gradient-bg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <button class="hidden md:block px-6 py-2 rounded-full gradient-bg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 btn-energy-pulse">
                 Get Started
             </button>
         </header>
 
         <section class="w-full max-w-6xl text-center py-4 px-4 md:px-8 mt-4 mb-8">
             <div class="inline-flex items-center space-x-2 bg-[#161b22] px-6 py-3 rounded-full border border-gray-700 shadow-lg animated-background-ceo">
-                <i class="fas fa-brain text-indigo-400 text-xl"></i>
+                <i class="fas fa-brain text-indigo-400 text-xl pulse-icon"></i>
                 <p class="text-lg font-medium text-gray-300">
                     CEO & Founder: <span class="gradient-text font-bold">Sahlan Hasan</span>
                 </p>
@@ -147,112 +349,314 @@
         </section>
 
         <section class="w-full max-w-6xl text-center py-16 px-4 md:px-8">
-            <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6 gradient-text">
+            <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6 gradient-text sparkle-text glitch-text">
                 Unleash the Future of Intelligence
             </h2>
             <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto">
                 Neura Flow AI Pro: Your ultimate partner for cutting-edge AI solutions, designed for unparalleled performance and intuitive interaction.
             </p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <button class="px-8 py-3 rounded-full gradient-bg text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <button class="px-8 py-3 rounded-full gradient-bg text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 btn-energy-pulse">
                     Explore Features
                 </button>
-                <button class="px-8 py-3 rounded-full border-2 border-indigo-500 text-indigo-300 font-bold text-lg hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300 transform hover:scale-105">
+                <button class="px-8 py-3 rounded-full border-2 border-indigo-500 text-indigo-300 font-bold text-lg hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300 transform hover:scale-105 btn-energy-pulse">
                     View Demo
                 </button>
             </div>
         </section>
 
-        <section class="w-full max-w-6xl bg-[#161b22] rounded-3xl shadow-2xl p-6 md:p-8 mb-12 border border-gray-700 card-glow">
-            <div class="relative flex border-b border-gray-700 mb-6">
-                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="chat">
-                    Chat AI
-                </button>
-                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="image">
-                    Image Gen
-                </button>
-                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="code">
-                    Code Asst.
-                </button>
-                <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="data">
-                    Data Analysis
-                </button>
-                <div class="tab-indicator" id="tab-indicator"></div>
-            </div>
+        <section class="w-full max-w-6xl bg-[#161b22] rounded-3xl shadow-2xl p-6 md:p-8 mb-12 card-glow relative overflow-hidden animated-border-glow">
+            <div class="grid-overlay"></div> <!-- Animated grid overlay -->
+            <div class="relative z-10"> <!-- Ensure content is above overlay -->
+                <div class="relative flex border-b border-gray-700 mb-6">
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="chat">
+                        Chat AI
+                    </button>
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="image">
+                        Image Gen
+                    </button>
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="3d-gen">
+                        3D Gen
+                    </button>
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="code">
+                        Code Asst.
+                    </button>
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="data">
+                        Data Analysis
+                    </button>
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="content-creation">
+                        Content Creation
+                    </button>
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="ai-profile">
+                        AI Profile
+                    </button>
+                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="smart-home">
+                        Smart Home
+                    </button>
+                    <div class="tab-indicator" id="tab-indicator"></div>
+                </div>
 
-            <div id="tab-content">
-                <div id="chat" class="tab-pane active">
-                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Intelligent Chat Assistant</h3>
-                    <div id="chat-messages" class="bg-[#0d1117] rounded-xl p-4 h-64 overflow-y-auto mb-4 border border-gray-800">
-                        <div class="flex items-start mb-3">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
-                            <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
-                                <p class="text-gray-200">Hello! How can I assist you today?</p>
+                <div id="tab-content">
+                    <div id="chat" class="tab-pane active">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Intelligent Chat Assistant</h3>
+                        <div id="chat-messages" class="bg-[#0d1117] rounded-xl p-4 h-64 overflow-y-auto mb-4 border border-gray-800">
+                            <div class="flex items-start mb-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
+                                <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%] ai-message-bubble-glow">
+                                    <p class="text-gray-200">Hello! How can I assist you today?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <input type="text" id="chat-input" placeholder="Type your message here..." class="flex-1 p-3 rounded-xl bg-gray-800 text-gray-100 border border-gray-700 focus:border-indigo-500 transition-colors duration-200">
+                            <button id="chat-send-btn" class="px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                Send
+                            </button>
+                        </div>
+                        <!-- New Conceptual Chat Features -->
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-microphone text-indigo-400"></i>
+                                <span>Voice Command Active</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-chart-line text-purple-400"></i>
+                                <span>Sentiment Analysis: Positive</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-lightbulb text-yellow-400"></i>
+                                <span>Quick Reply Suggestions</span>
                             </div>
                         </div>
                     </div>
-                    <div class="flex space-x-3">
-                        <input type="text" id="chat-input" placeholder="Type your message here..." class="flex-1 p-3 rounded-xl bg-gray-800 text-gray-100 border border-gray-700 focus:border-indigo-500 transition-colors duration-200">
-                        <button id="chat-send-btn" class="px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
-                            Send
-                        </button>
-                    </div>
-                </div>
 
-                <div id="image" class="tab-pane hidden">
-                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Generate Stunning Images</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div id="image-preview-1-container" class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
-                            <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center" id="image-placeholder-1">Generated Image Preview</p>
-                            <img id="image-preview-1" src="" alt="AI Generated Image" class="w-full h-full object-contain rounded-lg hidden">
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spinner hidden" id="image-spinner-1"></div>
+                    <div id="image" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Generate Stunning Images</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div id="image-preview-1-container" class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
+                                <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center" id="image-placeholder-1">Generated Image Preview</p>
+                                <img id="image-preview-1" src="" alt="AI Generated Image" class="w-full h-full object-contain rounded-lg hidden">
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spinner hidden" id="image-spinner-1"></div>
+                            </div>
+                            <div id="image-preview-2-container" class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
+                                <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center" id="image-placeholder-2">Another Image Preview</p>
+                                <img id="image-preview-2" src="" alt="AI Generated Image" class="w-full h-full object-contain rounded-lg hidden">
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spinner hidden" id="image-spinner-2"></div>
+                            </div>
                         </div>
-                        <div id="image-preview-2-container" class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
-                            <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center" id="image-placeholder-2">Another Image Preview</p>
-                            <img id="image-preview-2" src="" alt="AI Generated Image" class="w-full h-full object-contain rounded-lg hidden">
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spinner hidden" id="image-spinner-2"></div>
+                        <div class="flex space-x-3">
+                            <input type="text" id="image-input" placeholder="Describe the image you want to generate..." class="flex-1 p-3 rounded-xl bg-gray-800 text-gray-100 border border-gray-700 focus:border-indigo-500 transition-colors duration-200">
+                            <button id="image-gen-btn" class="px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                Generate
+                            </button>
                         </div>
-                    </div>
-                    <div class="flex space-x-3">
-                        <input type="text" id="image-input" placeholder="Describe the image you want to generate..." class="flex-1 p-3 rounded-xl bg-gray-800 text-gray-100 border border-gray-700 focus:border-indigo-500 transition-colors duration-200">
-                        <button id="image-gen-btn" class="px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
-                            Generate
-                        </button>
-                    </div>
-                </div>
-
-                <div id="code" class="tab-pane hidden">
-                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Your Personal Code Assistant</h3>
-                    <textarea id="code-textarea" placeholder="Paste your code or describe your coding problem..." class="w-full p-4 rounded-xl bg-gray-800 text-gray-100 h-64 mb-4 border border-gray-700 focus:border-indigo-500 transition-colors duration-200 resize-y"></textarea>
-                    <div class="flex space-x-3">
-                        <button id="refactor-btn" class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300">
-                            Refactor Code
-                        </button>
-                        <button id="debug-btn" class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
-                            Debug Code
-                        </button>
-                        <button id="generate-snippet-btn" class="flex-1 px-6 py-3 rounded-xl border-2 border-purple-500 text-purple-300 font-semibold hover:bg-purple-900 hover:bg-opacity-20 transition-all duration-300">
-                            Generate Snippet
-                        </button>
-                    </div>
-                </div>
-
-                <div id="data" class="tab-pane hidden">
-                    <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Powerful Data Insights</h3>
-                    <div id="data-analysis-display" class="bg-[#0d1117] rounded-xl p-4 h-64 overflow-y-auto mb-4 border border-gray-800 flex items-center justify-center text-gray-400">
-                        <p>Upload your data (CSV, JSON) for analysis.</p>
-                        <div class="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center hidden">
-                            <p>Chart/Graph Placeholder</p>
+                        <!-- New Conceptual Image Features -->
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-palette text-pink-400"></i>
+                                <span>Style Presets: Cyberpunk</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-ruler-combined text-green-400"></i>
+                                <span>Resolution: 1024x1024</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-magic text-blue-400"></i>
+                                <span>Advanced Filters</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-                        <input type="file" class="hidden" id="data-upload">
-                        <label for="data-upload" class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold cursor-pointer text-center hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300">
-                            Upload Data File
-                        </label>
-                        <button id="data-analyze-btn" class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300">
-                            Analyze Data
-                        </button>
+
+                    <!-- New 3D Generation Tab -->
+                    <div id="3d-gen" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Create 3D Models with AI</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
+                                <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">3D Model Preview</p>
+                                <i class="fas fa-cube text-6xl text-gray-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+                                <!-- Conceptual 3D viewer here -->
+                            </div>
+                            <div class="bg-[#0d1117] rounded-xl p-4 h-64 flex items-center justify-center border border-gray-800 text-gray-400 relative overflow-hidden">
+                                <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">Material/Texture Preview</p>
+                                <i class="fas fa-flask text-6xl text-gray-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+                                <!-- Conceptual material editor here -->
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <input type="text" placeholder="Describe the 3D model you want to create..." class="flex-1 p-3 rounded-xl bg-gray-800 text-gray-100 border border-gray-700 focus:border-indigo-500 transition-colors duration-200">
+                            <button class="px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                Generate 3D
+                            </button>
+                        </div>
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-lightbulb text-yellow-400"></i>
+                                <span>Lighting Presets</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-cogs text-gray-400"></i>
+                                <span>Export Options: OBJ, FBX</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="code" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Your Personal Code Assistant</h3>
+                        <textarea id="code-textarea" placeholder="Paste your code or describe your coding problem..." class="w-full p-4 rounded-xl bg-gray-800 text-gray-100 h-64 mb-4 border border-gray-700 focus:border-indigo-500 transition-colors duration-200 resize-y"></textarea>
+                        <div class="flex space-x-3">
+                            <button id="refactor-btn" class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300 btn-energy-pulse">
+                                Refactor Code
+                            </button>
+                            <button id="debug-btn" class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                Debug Code
+                            </button>
+                            <button id="generate-snippet-btn" class="flex-1 px-6 py-3 rounded-xl border-2 border-purple-500 text-purple-300 font-semibold hover:bg-purple-900 hover:bg-opacity-20 transition-all duration-300 btn-energy-pulse">
+                                Generate Snippet
+                            </button>
+                        </div>
+                        <!-- New Conceptual Code Features -->
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-code text-cyan-400"></i>
+                                <span>Language: Python</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-git-alt text-orange-400"></i>
+                                <span>Version Control: Synced</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-terminal text-lime-400"></i>
+                                <span>Live Code Execution</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="data" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Powerful Data Insights</h3>
+                        <div id="data-analysis-display" class="bg-[#0d1117] rounded-xl p-4 h-64 overflow-y-auto mb-4 border border-gray-800 flex items-center justify-center text-gray-400">
+                            <p>Upload your data (CSV, JSON) for analysis.</p>
+                            <div class="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center hidden">
+                                <p>Chart/Graph Placeholder</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                            <input type="file" class="hidden" id="data-upload">
+                            <label for="data-upload" class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold cursor-pointer text-center hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300 btn-energy-pulse">
+                                Upload Data File
+                            </label>
+                            <button id="data-analyze-btn" class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                Analyze Data
+                            </button>
+                        </div>
+                        <!-- New Conceptual Data Features -->
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-chart-area text-red-400"></i>
+                                <span>Predictive Modeling</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-tachometer-alt text-teal-400"></i>
+                                <span>Interactive Dashboard</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-database text-blue-400"></i>
+                                <span>Big Data Integration</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Content Creation Tab -->
+                    <div id="content-creation" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">AI-Powered Content Creation</h3>
+                        <textarea placeholder="Tell me what you want to create: a story, a summary, a poem, a report outline..." class="w-full p-4 rounded-xl bg-gray-800 text-gray-100 h-64 mb-4 border border-gray-700 focus:border-indigo-500 transition-colors duration-200 resize-y"></textarea>
+                        <div class="flex space-x-3">
+                            <button class="flex-1 px-6 py-3 rounded-xl border-2 border-purple-500 text-purple-300 font-semibold hover:bg-purple-900 hover:bg-opacity-20 transition-all duration-300 btn-energy-pulse">
+                                Generate Text
+                            </button>
+                            <button class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                Summarize Document
+                            </button>
+                        </div>
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-feather-alt text-yellow-400"></i>
+                                <span>Creative Writing Mode</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-file-alt text-blue-400"></i>
+                                <span>Report Generation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Personal AI Profile Tab -->
+                    <div id="ai-profile" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Your Personal AI Profile</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-[#0d1117] rounded-xl p-4 h-64 flex flex-col items-center justify-center border border-gray-800 text-gray-400">
+                                <i class="fas fa-user-circle text-6xl text-gray-600 mb-2"></i>
+                                <p class="text-center">Personalization Level: 85%</p>
+                                <p class="text-sm text-gray-500">AI learns from your interactions.</p>
+                            </div>
+                            <div class="bg-[#0d1117] rounded-xl p-4 h-64 flex flex-col items-center justify-center border border-gray-800 text-gray-400">
+                                <i class="fas fa-chart-pie text-6xl text-purple-400 mb-2"></i>
+                                <p class="text-center">Interaction Summary</p>
+                                <p class="text-sm text-gray-500">Top Topics: Coding, Design, Smart Home</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300 btn-energy-pulse">
+                                Customize Settings
+                            </button>
+                            <button class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                View Full History
+                            </button>
+                        </div>
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-robot text-cyan-400"></i>
+                                <span>AI Persona: Adaptive</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-sync-alt text-green-400"></i>
+                                <span>Learning Rate: High</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Smart Home Integration Tab -->
+                    <div id="smart-home" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-300">Smart Home & IoT Integration</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-[#0d1117] rounded-xl p-4 h-64 flex flex-col items-center justify-center border border-gray-800 text-gray-400">
+                                <i class="fas fa-lightbulb text-6xl text-yellow-400 mb-2"></i>
+                                <p class="text-center">Connected Devices: 5</p>
+                                <p class="text-sm text-gray-500">Living Room Lights, Thermostat, Door Lock...</p>
+                            </div>
+                            <div class="bg-[#0d1117] rounded-xl p-4 h-64 flex flex-col items-center justify-center border border-gray-800 text-gray-400">
+                                <i class="fas fa-cloud-sun text-6xl text-blue-400 mb-2"></i>
+                                <p class="text-center">Environmental Data</p>
+                                <p class="text-sm text-gray-500">Temperature: 24°C, Humidity: 60%</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="flex-1 px-6 py-3 rounded-xl border-2 border-indigo-500 text-indigo-300 font-semibold hover:bg-indigo-900 hover:bg-opacity-20 transition-all duration-300 btn-energy-pulse">
+                                View Dashboard
+                            </button>
+                            <button class="flex-1 px-6 py-3 rounded-xl gradient-bg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 btn-energy-pulse">
+                                Automate Tasks
+                            </button>
+                        </div>
+                        <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-400">
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-wifi text-green-400"></i>
+                                <span>Network Status: Online</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full border border-gray-700">
+                                <i class="fas fa-shield-alt text-red-400"></i>
+                                <span>Security: Active</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -272,7 +676,7 @@
             if (type === 'success') {
                 bgColor = '#10B981'; // Green
             } else if (type === 'error') {
-                bgColor = '#EF4444'; // Red
+                bgColor = '#4F46E5'; // Indigo for errors
             } else if (type === 'info') {
                 bgColor = '#4F46E5'; // Indigo
             }
@@ -412,7 +816,7 @@
             initialAiMessageDiv.className = 'flex items-start mb-3';
             initialAiMessageDiv.innerHTML = `
                 <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
-                <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
+                <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%] ai-message-bubble-glow">
                     <p class="text-gray-200">Hello! How can I assist you today?</p>
                 </div>
             `;
@@ -453,8 +857,15 @@
                 try {
                     // Custom response logic for specific queries about CEO/creation
                     const lowerCaseMessage = messageText.toLowerCase();
-                    const ceoKeywordsEnglish = ['who made you', 'created you', 'who is your boss', 'your boss', 'who is your ceo', 'your founder', 'about this ai', 'your origin', 'who trained you'];
-                    const ceoKeywordsBengali = ['কে তোমাকে তৈরি করেছে', 'তোমার বস কে', 'তোমাকে কে বানিয়েছে', 'তোমার সিইও কে', 'প্রতিষ্ঠাতা কে', 'তোমাকে প্রশিক্ষণ দিয়েছে কে']; // New Bengali keywords
+                    const ceoKeywordsEnglish = [
+                        'who made you', 'created you', 'who is your boss', 'your boss', 
+                        'who is your ceo', 'your founder', 'about this ai', 'your origin', 
+                        'who trained you'
+                    ];
+                    const ceoKeywordsBengali = [
+                        'কে তোমাকে তৈরি করেছে', 'তোমার বস কে', 'তোমাকে কে বানিয়েছে', 
+                        'তোমার সিইও কে', 'প্রতিষ্ঠাতা কে', 'তোমাকে প্রশিক্ষণ দিয়েছে কে'
+                    ];
                     
                     const isCeoQuery = ceoKeywordsEnglish.some(keyword => lowerCaseMessage.includes(keyword)) ||
                                        ceoKeywordsBengali.some(keyword => lowerCaseMessage.includes(keyword));
@@ -467,9 +878,9 @@
                         chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
                     } else {
                         // Regular AI response from Gemini API
-                        // Ensure apiKey is provided for actual API calls
                         if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY") {
-                            throw new Error("API Key is not configured. Please replace 'YOUR_GEMINI_API_KEY' in the code with your actual Gemini API key.");
+                            // User-friendly message for unconfigured API key
+                            throw new Error("Neura Flow AI Pro services are currently optimizing. We're working to bring you the best experience soon!");
                         }
                         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                         const response = await fetch(apiUrl, {
@@ -479,8 +890,8 @@
                         });
 
                         if (!response.ok) {
-                            const errorData = await response.json();
-                            throw new Error(`API error: ${response.status} ${response.statusText} - ${errorData.error.message}`);
+                            // Generic error message for other API issues
+                            throw new Error("Neura Flow AI Pro services are currently optimizing. We're working to bring you the best experience soon!");
                         }
 
                         const result = await response.json();
@@ -492,8 +903,8 @@
                             aiResponseText = result.candidates[0].content.parts[0].text;
                             chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] }); // Add AI response to history
                         } else {
-                            showTemporaryMessage('Received an unexpected response structure from AI.', 'error');
-                            aiResponseText = "I encountered an issue getting a response. Please try again.";
+                            // Fallback for unexpected AI response structure
+                            aiResponseText = "Neura Flow AI Pro services are currently optimizing. We're working to bring you the best experience soon!";
                         }
                     }
 
@@ -501,7 +912,7 @@
                     aiResponseDiv.className = 'flex items-start mb-3';
                     aiResponseDiv.innerHTML = `
                         <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
-                        <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
+                        <div class="bg-gray-800 p-3 rounded-xl rounded-tl-none max-w-[80%] ai-message-bubble-glow">
                             <p class="text-gray-200">${aiResponseText}</p>
                         </div>
                     `;
@@ -511,15 +922,15 @@
                 } catch (error) {
                     loadingDiv.remove(); // Remove loading indicator on error
                     console.error('Error fetching AI response:', error);
-                    showTemporaryMessage(`Failed to get AI response: ${error.message}`, 'error');
-
-                    // Add an error message to the chat
+                    // Display the user-friendly message in the chat
+                    const userFriendlyError = error.message; 
+                    
                     const errorAiResponseDiv = document.createElement('div');
                     errorAiResponseDiv.className = 'flex items-start mb-3';
                     errorAiResponseDiv.innerHTML = `
                         <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
-                        <div class="bg-red-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
-                            <p class="text-white">Error: Could not connect to AI. Please try again later. (Details: ${error.message})</p>
+                        <div class="bg-gray-700 p-3 rounded-xl rounded-tl-none max-w-[80%]"> <!-- Changed from bg-red-800 to gray-700 -->
+                            <p class="text-white">${userFriendlyError}</p>
                         </div>
                     `;
                     chatMessages.appendChild(errorAiResponseDiv);
@@ -564,7 +975,8 @@
                 try {
                     // Ensure apiKey is provided for actual API calls
                     if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY") {
-                        throw new Error("API Key is not configured. Please replace 'YOUR_GEMINI_API_KEY' in the code with your actual Gemini API key.");
+                        // User-friendly message for unconfigured API key
+                        throw new Error("Image generation services are currently optimizing. We're working to bring you the best experience soon!");
                     }
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
                     const payload = { instances: { prompt: prompt }, parameters: { "sampleCount": 2 } }; // Request 2 images
@@ -576,8 +988,8 @@
                     });
 
                     if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`API error: ${response.status} ${response.statusText} - ${errorData.error.message}`);
+                        // Generic error message for other API issues
+                        throw new Error("Image generation services are currently optimizing. We're working to bring you the best experience soon!");
                     }
 
                     const result = await response.json();
@@ -624,9 +1036,11 @@
                     imageInput.disabled = false;
                     imagePlaceholder1.classList.remove('hidden');
                     imagePlaceholder2.classList.remove('hidden');
-                    imagePlaceholder1.textContent = `Generation Failed. (Details: ${error.message})`;
-                    imagePlaceholder2.textContent = `Generation Failed. (Details: ${error.message})`;
-                    showTemporaryMessage(`Image generation failed: ${error.message}`, 'error');
+                    // Display the user-friendly message
+                    const userFriendlyError = error.message; 
+                    imagePlaceholder1.textContent = userFriendlyError;
+                    imagePlaceholder2.textContent = userFriendlyError;
+                    showTemporaryMessage(userFriendlyError, 'error');
                 }
             });
 
@@ -680,6 +1094,123 @@
                     showTemporaryMessage('Please upload a file first.', 'error');
                 }
             });
+
+            // --- Particle Background Animation ---
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const numParticles = 200; // Even more particles
+            const maxDistance = 180; // Larger connection distance
+            const particleSpeed = 0.9; // Slightly faster movement
+            const mouse = {
+                x: null,
+                y: null,
+                radius: 200 // Larger mouse interaction radius
+            };
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Mouse movement listener
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+
+            // Reset mouse position when it leaves the window
+            window.addEventListener('mouseout', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            function Particle(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 2.8 + 0.7; // Slightly larger particles
+                this.baseSpeedX = Math.random() * particleSpeed * 2 - particleSpeed;
+                this.baseSpeedY = Math.random() * particleSpeed * 2 - particleSpeed;
+                this.speedX = this.baseSpeedX;
+                this.speedY = this.baseSpeedY;
+                this.color = `rgba(99, 102, 241, ${Math.random() * 0.8 + 0.4})`; // Brighter indigo with alpha
+            }
+
+            Particle.prototype.update = function() {
+                // Mouse interaction
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dxMouse = this.x - mouse.x;
+                    const dyMouse = this.y - mouse.y;
+                    const distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+
+                    if (distanceMouse < mouse.radius) {
+                        const forceDirectionX = dxMouse / distanceMouse;
+                        const forceDirectionY = dyMouse / distanceMouse;
+                        const maxForce = 7; // Stronger force to repel
+                        const force = (mouse.radius - distanceMouse) / mouse.radius * maxForce;
+
+                        this.x += forceDirectionX * force;
+                        this.y += forceDirectionY * force;
+                    }
+                }
+
+                // Normal movement
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Bounce off edges
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            };
+
+            Particle.prototype.draw = function() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            };
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < numParticles; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    particles.push(new Particle(x, y));
+                }
+            }
+
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    for (let j = i; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < maxDistance) {
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.95 - (distance / maxDistance)})`; // Even brighter lines
+                            ctx.lineWidth = 1; // Thicker lines
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            // Handle window resize for canvas
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles(); // Re-initialize particles on resize
+            });
+
+            initParticles();
+            animateParticles();
         });
     </script>
 </body>
