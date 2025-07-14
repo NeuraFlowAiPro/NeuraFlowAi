@@ -368,29 +368,29 @@
         <section class="w-full max-w-6xl bg-[#161b22] rounded-3xl shadow-2xl p-6 md:p-8 mb-12 card-glow relative overflow-hidden animated-border-glow">
             <div class="grid-overlay"></div> <!-- Animated grid overlay -->
             <div class="relative z-10"> <!-- Ensure content is above overlay -->
-                <div class="relative flex border-b border-gray-700 mb-6">
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="chat">
+                <div class="relative flex flex-wrap justify-center border-b border-gray-700 mb-6">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="chat">
                         Chat AI
                     </button>
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="image">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="image">
                         Image Gen
                     </button>
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="3d-gen">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="3d-gen">
                         3D Gen
                     </button>
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="code">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="code">
                         Code Asst.
                     </button>
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="data">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="data">
                         Data Analysis
                     </button>
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="content-creation">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="content-creation">
                         Content Creation
                     </button>
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="ai-profile">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="ai-profile">
                         AI Profile
                     </button>
-                    <button class="tab-button flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="smart-home">
+                    <button class="tab-button w-full sm:w-1/2 md:flex-1 py-3 text-center text-lg font-medium text-gray-400 hover:text-indigo-300 transition-colors duration-200 relative" data-tab="smart-home">
                         Smart Home
                     </button>
                     <div class="tab-indicator" id="tab-indicator"></div>
@@ -1099,22 +1099,40 @@
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
-            const numParticles = 200; // Even more particles
-            const maxDistance = 180; // Larger connection distance
-            const particleSpeed = 0.9; // Slightly faster movement
+            let numParticles;
+            let maxDistance;
+            let particleSpeed;
             const mouse = {
                 x: null,
                 y: null,
-                radius: 200 // Larger mouse interaction radius
+                radius: null // Will be set based on screen size
             };
+
+            // Function to set particle parameters based on screen size
+            function setParticleParameters() {
+                if (window.innerWidth < 768) { // Mobile devices (Tailwind's md breakpoint is 768px)
+                    numParticles = 60; // Reduced for mobile
+                    maxDistance = 100; // Shorter connection distance
+                    particleSpeed = 0.4; // Slower movement
+                    mouse.radius = 100; // Smaller mouse interaction radius
+                } else { // Desktop/Larger screens
+                    numParticles = 200;
+                    maxDistance = 180;
+                    particleSpeed = 0.9;
+                    mouse.radius = 200;
+                }
+            }
 
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
             // Mouse movement listener
             window.addEventListener('mousemove', (event) => {
-                mouse.x = event.x;
-                mouse.y = event.y;
+                // Only enable mouse interaction on larger screens
+                if (window.innerWidth >= 768) {
+                    mouse.x = event.x;
+                    mouse.y = event.y;
+                }
             });
 
             // Reset mouse position when it leaves the window
@@ -1126,16 +1144,16 @@
             function Particle(x, y) {
                 this.x = x;
                 this.y = y;
-                this.size = Math.random() * 2.8 + 0.7; // Slightly larger particles
+                this.size = Math.random() * 2.8 + 0.7;
                 this.baseSpeedX = Math.random() * particleSpeed * 2 - particleSpeed;
                 this.baseSpeedY = Math.random() * particleSpeed * 2 - particleSpeed;
                 this.speedX = this.baseSpeedX;
                 this.speedY = this.baseSpeedY;
-                this.color = `rgba(99, 102, 241, ${Math.random() * 0.8 + 0.4})`; // Brighter indigo with alpha
+                this.color = `rgba(99, 102, 241, ${Math.random() * 0.8 + 0.4})`;
             }
 
             Particle.prototype.update = function() {
-                // Mouse interaction
+                // Mouse interaction - only if mouse is active (i.e., on desktop)
                 if (mouse.x !== null && mouse.y !== null) {
                     const dxMouse = this.x - mouse.x;
                     const dyMouse = this.y - mouse.y;
@@ -1144,7 +1162,7 @@
                     if (distanceMouse < mouse.radius) {
                         const forceDirectionX = dxMouse / distanceMouse;
                         const forceDirectionY = dyMouse / distanceMouse;
-                        const maxForce = 7; // Stronger force to repel
+                        const maxForce = 7;
                         const force = (mouse.radius - distanceMouse) / mouse.radius * maxForce;
 
                         this.x += forceDirectionX * force;
@@ -1169,6 +1187,7 @@
             };
 
             function initParticles() {
+                setParticleParameters(); // Set parameters before initializing
                 particles = [];
                 for (let i = 0; i < numParticles; i++) {
                     const x = Math.random() * canvas.width;
@@ -1179,7 +1198,7 @@
 
             function animateParticles() {
                 requestAnimationFrame(animateParticles);
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 for (let i = 0; i < particles.length; i++) {
                     particles[i].update();
@@ -1191,8 +1210,8 @@
                         const distance = Math.sqrt(dx * dx + dy * dy);
 
                         if (distance < maxDistance) {
-                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.95 - (distance / maxDistance)})`; // Even brighter lines
-                            ctx.lineWidth = 1; // Thicker lines
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.95 - (distance / maxDistance)})`;
+                            ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
@@ -1206,7 +1225,7 @@
             window.addEventListener('resize', () => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                initParticles(); // Re-initialize particles on resize
+                initParticles(); // Re-initialize particles on resize with new parameters
             });
 
             initParticles();
