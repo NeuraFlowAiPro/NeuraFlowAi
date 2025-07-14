@@ -741,7 +741,7 @@
             if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
                 e.preventDefault();
             }
-            // Ctrl+U (Windows/Linux) or Cmd+Option+U (Mac) for View Source
+            // Ctrl+U (Windows/Linux) or Cmd+Option+U (Mac) for View Source - NEWLY ADDED
             if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
                 e.preventDefault();
             }
@@ -1034,13 +1034,9 @@
                     imageSpinner2.classList.add('hidden');
                     imageGenBtn.disabled = false; // Re-enable button
                     imageInput.disabled = false;
-                    imagePlaceholder1.classList.remove('hidden');
-                    imagePlaceholder2.classList.remove('hidden');
-                    // Display the user-friendly message
-                    const userFriendlyError = error.message; 
-                    imagePlaceholder1.textContent = userFriendlyError;
-                    imagePlaceholder2.textContent = userFriendlyError;
-                    showTemporaryMessage(userFriendlyError, 'error');
+                    imagePlaceholder1.textContent = error.message;
+                    imagePlaceholder2.textContent = error.message;
+                    showTemporaryMessage(error.message, 'error');
                 }
             });
 
