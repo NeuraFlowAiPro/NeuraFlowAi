@@ -394,8 +394,10 @@
                 showTemporaryMessage('Contact us at: neuraflowaipro@gmail.com', 'info', 5000); // Display for 5 seconds
             });
 
-            // --- Gemini API Key (Canvas will inject this at runtime) ---
-            const apiKey = ""; // Leave this empty. Canvas will provide the API key.
+            // --- Gemini API Key ---
+            // IMPORTANT: Replace "YOUR_GEMINI_API_KEY" with your actual Gemini API Key.
+            // You can get one from Google AI Studio: https://aistudio.google.com/app/apikey
+            const apiKey = "YOUR_GEMINI_API_KEY"; 
 
             // --- Chat AI Functionality ---
             const chatInput = document.getElementById('chat-input');
@@ -449,9 +451,6 @@
                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
                 try {
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    const payload = { contents: chatHistory };
-
                     // Custom response logic for specific queries about CEO/creation
                     const lowerCaseMessage = messageText.toLowerCase();
                     const ceoKeywordsEnglish = ['who made you', 'created you', 'who is your boss', 'your boss', 'who is your ceo', 'your founder', 'about this ai', 'your origin', 'who trained you'];
@@ -468,6 +467,11 @@
                         chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
                     } else {
                         // Regular AI response from Gemini API
+                        // Ensure apiKey is provided for actual API calls
+                        if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY") {
+                            throw new Error("API Key is not configured. Please replace 'YOUR_GEMINI_API_KEY' in the code with your actual Gemini API key.");
+                        }
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                         const response = await fetch(apiUrl, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -515,7 +519,7 @@
                     errorAiResponseDiv.innerHTML = `
                         <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold mr-3">AI</div>
                         <div class="bg-red-800 p-3 rounded-xl rounded-tl-none max-w-[80%]">
-                            <p class="text-white">Error: Could not connect to AI. Please try again later.</p>
+                            <p class="text-white">Error: Could not connect to AI. Please try again later. (Details: ${error.message})</p>
                         </div>
                     `;
                     chatMessages.appendChild(errorAiResponseDiv);
@@ -558,6 +562,10 @@
                 imageInput.disabled = true;
 
                 try {
+                    // Ensure apiKey is provided for actual API calls
+                    if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY") {
+                        throw new Error("API Key is not configured. Please replace 'YOUR_GEMINI_API_KEY' in the code with your actual Gemini API key.");
+                    }
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
                     const payload = { instances: { prompt: prompt }, parameters: { "sampleCount": 2 } }; // Request 2 images
 
@@ -616,8 +624,8 @@
                     imageInput.disabled = false;
                     imagePlaceholder1.classList.remove('hidden');
                     imagePlaceholder2.classList.remove('hidden');
-                    imagePlaceholder1.textContent = 'Generation Failed. Try again.';
-                    imagePlaceholder2.textContent = 'Generation Failed. Try again.';
+                    imagePlaceholder1.textContent = `Generation Failed. (Details: ${error.message})`;
+                    imagePlaceholder2.textContent = `Generation Failed. (Details: ${error.message})`;
                     showTemporaryMessage(`Image generation failed: ${error.message}`, 'error');
                 }
             });
